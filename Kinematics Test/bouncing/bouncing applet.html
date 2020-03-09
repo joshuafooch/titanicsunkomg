@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        #ruler {
+            width: 146px;
+            position: absolute;
+            left: 175px;
+            top: 95px;
+            float: left;
+        }
+
+        #animate {
+            width: 75px;
+            height: 77px;
+            position: absolute;
+            left: 100px;
+            top: 50px;
+            float: left;
+        }
+
+        #infocontainer {
+            position: absolute;
+            width: 30%;
+            left: 350px;
+            float: left;
+        }
+
+        #graphcontainer {
+            position: absolute;
+            width: 40%;
+            left: 800px;
+            float: left;
+        }
+
+        #row2 {
+            position: absolute;
+            top: 250px;
+            width: 100%;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 400px;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+    </style>
+
+    <title>Bouncing Motion</title>
+</head>
+<body>
+    <div class="row">
+        <div id="animate">
+            <img src="ballwithline.jpg" alt="Ball" style="width:75px;height:77px;">
+        </div>
+        <div id="ruler">
+            <img src="ruler.jpg" alt="Ruler" style="width:146px;height:1199px;">
+        </div>
+        <div id="infocontainer">
+            <p>
+                <button onclick="myMove()">Play</button>
+                <button onclick="pause()">Pause</button>
+                <button onclick="reset()">Reset</button>
+                <button onclick="leftStep()">Time Step Back</button>
+                <button onclick="rightStep()">Time Step Forward</button>
+                <button onclick="plotPoints()">Plot</button>
+            </p>
+            <i><font size="2">(Spacebar: Play/Pause, R: Reset, Left Button: Time Step Backward, Right Button: Time Step Forward, P: Plot Point)</font></i>
+            <br>
+            <p id="timer"></p>
+
+
+            <p id="disdisplay"></p>
+            <input type="range" min="0" max="20" value="20" class="slider" id="disslider">
+            <p id="veldisplay"></p>
+            <input type="range" min="-10" max="10" value="0" class="slider" id="velslider">
+            <p id="coeffdisplay"></p>
+            <input type="range" min="0" max="1" value="1" class="slider" id="coeffslider" step="0.01">
+
+            <p><b>Time Step: </b><input id="stepinput" Value="0.5"> seconds</p>
+        </div>
+        <div id="graphcontainer">
+            <div>
+                <input type="checkbox" id="showgraph" name="showgraph" onclick="graphCheck()">
+                <label for="showgraph">Show graphs</label>
+            </div>
+            <div id="dtgraphcontainer" style="display:none">
+                <div>
+                    <input type="checkbox" id="autograph" name="autograph">
+                    <label for="autograph">Plot points automatically according to time step</label>
+                    <br /><br />
+                    Distance-time graph
+                </div>
+                <div id="dtgraph" style="width:550px;height:450px;">
+                </div>
+            </div>
+            <div id="vtgraphcontainer" style="display:none">
+                <div>
+                    Velocity-time graph
+                </div>
+                <div id="vtgraph" style="width:550px;height:450px;">
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    var anim;
+    var elem = document.getElementById("animate");
+    var m1 = 0;
+    var m2 = 0;
+    var s1 = 0;
+    var s2 = 0;
+    var ms1 = 0;
+    var ms2 = 0;
+    var pos = 50;
+    var moveBool = false; //Boolean for whether the object is moving
+    var counter = 0;
+    var plotcounter = 0;
+
+    var disslider = document.getElementById("disslider");
+    var velslider = document.getElementById("velslider");
+    var coeffslider = document.getElementById("coeffslider");
+    var vel = velslider.value * 57.;
+    var coeff = 1.;
+    var acc = 10. * 57.;
+    document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+    document.getElementById("disdisplay").innerHTML = "<b>Initial Position: </b>" + "<font size='6'>" + disslider.value + " cm</font>";
+    document.getElementById("veldisplay").innerHTML = "<b>Initial Velocity: </b>" + "<font size='6'>" + velslider.value + " cm/s</font>";
+    document.getElementById("coeffdisplay").innerHTML = "<b>Coefficient of Restitution: </b>" + "<font size='6'>" + coeffslider.value + "</font>";
+    disslider.oninput = function() {
+        document.getElementById("disdisplay").innerHTML = "<b>Initial Position: </b>" + "<font size='6'>" + this.value + " cm</font>";
+        if (moveBool == false) {
+            pos = 1190 - this.value * 57;
+            elem.style.top = pos + "px";
+        } else {
+            return;
+        }
+    }
+    velslider.oninput = function() {
+        document.getElementById("veldisplay").innerHTML = "<b>Initial Velocity: </b>" + "<font size='6'>" + this.value + " cm/s</font>";
+        vel = this.value * 57.;
+    }
+    coeffslider.oninput = function () {
+        document.getElementById("coeffdisplay").innerHTML = "<b>Coefficient of Restitution: </b>" + "<font size='6'>" + this.value + "</font>";
+        coeff = this.value;
+    }
+
+
+    document.body.onkeydown = function(e){
+        if (e.keyCode == 32) { //spacebar pressed
+            if (moveBool == false) {
+                myMove();
+            } else {
+                pause();
+            }
+        } else if (e.keyCode == 37) { //left button pressed
+            if (moveBool == false) {
+                leftStep();
+            } else {
+                return;
+            }
+        } else if (e.keyCode == 39) { //right button pressed
+            if (moveBool == false) {
+                rightStep();
+            } else {
+                return;
+            }
+        } else if (e.keyCode == 82) { //'R' button pressed
+            reset();
+        } else if (e.keyCode == 80) { //'P' button pressed
+            plotPoints();
+        }
+    }
+
+
+    function myMove() {
+        clearInterval(anim);
+        anim = setInterval(frame, 10); // This is a repetition loop
+    }
+
+    function frame(step = 0) {
+        if (document.getElementById("autograph").checked == true) { //for plotting points
+            var steplength = Number(document.getElementById("stepinput").value) * 100; //step length based on input
+            if (plotcounter == steplength) {
+                plotcounter = 0;
+            }
+            if (plotcounter == 0) {
+                plotPoints();
+                plotcounter++;
+            } else {
+                plotcounter++;
+            }
+        }
+        if (step != 0) { //For steps left or right
+            if (counter < step) {
+                if (vel >= 0) { //For positive velocity, check bottom limit
+                    moveBool = true;
+                    pos += vel/100.;
+                    if (pos >= 1190) {
+                        var temp = -1. * vel;
+                        vel = temp;
+                    } else {
+                        vel += (acc/100.);
+                    }
+                    elem.style.top = pos + "px";
+                    myTimer();
+                    counter++;
+                } else { //For negative velocity, check left limit
+                    if (pos <= 0) {
+                        moveBool = false;
+                        clearInterval(anim);
+                    } else {
+                        moveBool = true;
+                        pos += vel/100.;
+                        vel += (acc/100.);
+                        elem.style.top = pos + "px";
+                        myTimer();
+                        counter++;
+                    }
+                }
+            } else{
+                moveBool = false;
+                clearInterval(anim);
+            }
+        } else { //For normal Play
+            if (vel >= 0) { //For positive velocity, check bottom limit
+                moveBool = true;
+                pos += vel / 100.;
+                if (pos >= 1190) {
+                    var temp = -1. * coeff * vel;
+                    vel = temp;
+                } else {
+                    vel += acc / 100.;
+                }
+                elem.style.top = pos + "px";
+                myTimer();
+            } else { //For negative velocity, check left limit
+                if (pos <= 0) {
+                    moveBool = false;
+                    clearInterval(anim);
+                } else {
+                    moveBool = true;
+                    pos += vel / 100.;
+                    vel += acc / 100.;
+                    elem.style.top = pos + "px";
+                    myTimer();
+                }
+            }
+        }
+    }
+
+    function reverseFrame(step) {
+        if (vel > 0) { //For positive velocity, check left limit for reverse step //
+            if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else if (pos <= 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else {
+                if (counter < step) {
+                    moveBool = true;
+                    vel -= acc / 100.;
+                    pos -= vel / 100.;
+                    elem.style.top = pos + "px";
+                    reverseTimer();
+                    counter++;
+                } else {
+                    moveBool = false;
+                    clearInterval(anim);
+                }
+            }
+        } else if (vel == 0.) {
+            if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else if (pos < 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else {
+                if (counter < step) {
+                    moveBool = true;
+                    vel -= acc / 100.;
+                    pos -= vel / 100.;
+                    elem.style.top = pos + "px";
+                    reverseTimer();
+                    counter++;
+                } else {
+                    moveBool = false;
+                    clearInterval(anim);
+                }
+            }
+        } else { //For negative velocity, check right limit for reverse step //
+            if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else if (pos >= 1173) {
+                moveBool = false;
+                clearInterval(anim);
+            } else {
+                if (counter < step) {
+                    moveBool = true;
+                    vel -= acc / 100.;
+                    pos -= vel / 100.;
+                    elem.style.top = pos + "px";
+                    reverseTimer();
+                    counter++;
+                } else {
+                    moveBool = false;
+                    clearInterval(anim);
+                }
+            }
+        }
+    }
+
+    function myTimer() {
+        ms2++;
+        if (ms2 == 10) {
+            ms1++;
+            ms2 = 0;
+        }
+        if (ms1 == 10) {
+            s2++;
+            ms1 = 0;
+        }
+        if (s2 == 10) {
+            s1++;
+            s2 = 0;
+        }
+        if (s1 == 6) {
+            m2++;
+            s1 = 0;
+        }
+        if (m2 == 10) {
+            m1++;
+            m2 = 0;
+        }
+        document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+    }
+
+    function reverseTimer() {
+        ms2--;
+        if (ms2 == -1) {
+            ms1--;
+            ms2 = 9;
+        }
+        if (ms1 == -1) {
+            s2--;
+            ms1 = 9;
+        }
+        if (s2 == -1) {
+            s1--;
+            s2 = 9;
+        }
+        if (s1 == -1) {
+            m2--;
+            s1 = 9;
+        }
+        if (m2 == -1) {
+            m1--;
+            m2 = 9;
+        }
+        if (m1 == -1) {
+            m1 = 0;
+        }
+        document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+    }
+
+    function pause() {
+        moveBool = false;
+        clearInterval(anim);
+    }
+
+    function reset() {
+        moveBool = false;
+        clearInterval(anim);
+        m1 = 0;
+        m2 = 0;
+        s1 = 0;
+        s2 = 0;
+        ms1 = 0;
+        ms2 = 0;
+        counter = 0;
+        plotcounter = 0;
+        document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+        disslider = document.getElementById("disslider");
+        velslider = document.getElementById("velslider");
+        pos = 1190 - disslider.value * 57;
+        elem.style.top = pos + "px";
+        vel = velslider.value * 57.;
+        tdata = [];
+        dtydata = [];
+        vtydata = [];
+        Plotly.newPlot(dtgraph, [{ x: tdata, y: dtydata }], { margin: { t: 0 } });
+        Plotly.newPlot(vtgraph, [{ x: tdata, y: vtydata }], { margin: { t: 0 } });
+    }
+
+    function rightStep() {
+        if (moveBool == true) {
+            return;
+        } else {
+            var steplength = Number(document.getElementById("stepinput").value) * 100; //step length based on input
+            counter = 0;
+            anim = setInterval(frame, 10, steplength); // 10ms per frame, i.e. 100 frames per second
+        }
+    }
+
+    function leftStep() {
+        if (moveBool == true) {
+            return;
+        } else {
+            var steplength = Number(document.getElementById("stepinput").value) * 100; //step length based on input
+            counter = 0;
+            anim = setInterval(reverseFrame, 10, steplength); // 10ms per frame, i.e. 100 frames per second
+        }
+    }
+
+    function graphCheck() {
+        if (document.getElementById("showgraph").checked == true) {
+            document.getElementById("dtgraphcontainer").style = "display:block";
+            document.getElementById("vtgraphcontainer").style = "display:block";
+        } else {
+            document.getElementById("dtgraphcontainer").style = "display:none";
+            document.getElementById("vtgraphcontainer").style = "display:none";
+        }
+    }
+
+    var tdata = [];
+    var dtydata = [];
+    var vtydata = [];
+    dtgraph = document.getElementById('dtgraph');
+    vtgraph = document.getElementById('vtgraph');
+    Plotly.newPlot(dtgraph, [{ x: tdata, y: dtydata }], { margin: { t: 0 } });
+    Plotly.newPlot(vtgraph, [{ x: tdata, y: vtydata }], { margin: { t: 0 } });
+
+    function plotPoints() {
+        var t = (ms2 / 100.) + (ms1 / 10.) + s2 + s1 * 10. + m2 * 60. + m1 * 10 * 60.;
+        var d = 20. - (pos - 50) / 57.;
+        var v = -1. * vel / 57.;
+        tdata.push(t);
+        dtydata.push(d);
+        vtydata.push(v);
+        Plotly.newPlot(dtgraph, [{ x: tdata, y: dtydata }], { margin: { t: 0 } });
+        Plotly.newPlot(vtgraph, [{ x: tdata, y: vtydata }], { margin: { t: 0 } });
+    }
+
+</script>
+
+</body>
+</html>
+

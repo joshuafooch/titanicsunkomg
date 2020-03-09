@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+#ruler {
+    width: 1200px;
+    position: absolute;
+    top: 75px;
+    left: 48px;
+}
+
+#animate {
+    width: 77px;
+    height: 75px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+#infocontainer {
+    position: absolute;
+    top: 221px;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 400px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+</style>
+
+<body>
+    <div id="animate">
+        <div style="float:left"><img src="https://api.pcloud.com/getpubthumb?code=BzLctalK&linkpassword=undefined&size=428x436&crop=0&type=auto" alt="Ball" style="width:75px;height:75px;"></div>
+        <div><img src="https://api.pcloud.com/getpubthumb?code=pP27&linkpassword=undefined&size=2x75&crop=0&type=auto" alt="Line" style="width:2px;height:75px;"></div>
+    </div>
+<div id ="ruler">
+    <img src="https://api.pcloud.com/getpubthumb?code=sijrtalK&linkpassword=undefined&size=1094x133&crop=0&type=auto" alt="Ruler" style="width:1200px;height:146px;">
+</div>
+<div id="infocontainer">
+    <p>
+    <button onclick="myMove()">Play</button>
+    <button onclick="pause()">Pause</button>
+    <button onclick="reset()">Reset</button>
+    <button onclick="leftStep()">Step Left</button>
+    <button onclick="rightStep()">Step Right</button>
+    </p>
+        <i>(Spacebar: Play/Pause, R: Reset, Left Button: Step Left, Right Button: Step Right)</i>
+    <br>
+    <p id="timer"></p>
+
+    <p id="veldisplay"></p>
+    <input type="range" min="-8" max="8" value="0" class="slider" id="velslider">
+
+    <p id="accdisplay"></p>
+    <input type="range" min="-8" max="8" value="0" class="slider" id="accslider">
+
+    <p><b>Time Step: </b><input id="stepinput" Value="0.25"> seconds</p>
+</div>
+<script>
+var anim;
+var elem = document.getElementById("animate");
+var m1 = 0;
+var m2 = 0;
+var s1 = 0;
+var s2 = 0;
+var ms1 = 0;
+var ms2 = 0;
+var pos = 0;
+var moveBool = false; //Boolean for whether the object is moving
+var counter = 0;
+
+var velslider = document.getElementById("velslider");
+var accslider = document.getElementById("accslider");
+var vel = velslider.value/1.;
+var acc = accslider.value/1.;
+document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+document.getElementById("veldisplay").innerHTML = "<b>Initial Velocity: </b>" + "<font size='6'>" + velslider.value + " cm/s</font>";
+document.getElementById("accdisplay").innerHTML = "<b>Acceleration: </b>" + "<font size='6'>" + accslider.value + " cm/s<sup>2</sup></font>";
+velslider.oninput = function() {
+    document.getElementById("veldisplay").innerHTML = "<b>Initial Velocity: </b>" + "<font size='6'>" + this.value + " cm/s</font>";
+    vel = this.value/7.0175*4;
+}
+accslider.oninput = function() {
+    document.getElementById("accdisplay").innerHTML = "<b>Acceleration: </b>" + "<font size='6'>" + this.value + " cm/s<sup>2</sup></font>";
+    acc = this.value/7.0175*4;
+}
+
+document.body.onkeydown = function(e){
+    if (e.keyCode == 32) { //spacebar pressed
+    if (moveBool == false) {
+        myMove();
+    } else {
+        pause();
+    }
+    } else if (e.keyCode == 37) { //left button pressed
+    if (moveBool == false) {
+        leftStep();
+    } else {
+        return;
+    }
+    } else if (e.keyCode == 39) { //right button pressed
+    if (moveBool == false) {
+        rightStep();
+    } else {
+        return;
+    }
+    } else if (e.keyCode == 82) { //'R' button pressed
+    reset();
+    }
+}
+
+
+function myMove() {
+    clearInterval(anim);
+    anim = setInterval(frame, 10); // This is a repetition loop
+}
+
+function frame(step = 0) {
+    if (step != 0){ //For steps left or right
+        if (counter < step) {
+            if (vel >= 0) { //For positive velocity, check right limit
+                if (pos >= 1173) {
+                    moveBool = false;
+                    clearInterval(anim);
+                } else {
+                    moveBool = true;
+                    pos += vel;
+                    vel += (acc/100.);
+                    elem.style.left = pos + "px";
+                    myTimer();
+                    counter++;
+                }
+            } else { //For negative velocity, check left limit
+                if (pos <= 0) {
+                    moveBool = false;
+                    clearInterval(anim);
+                } else {
+                    moveBool = true;
+                    pos += vel;
+                    vel += (acc/100.);
+                    elem.style.left = pos + "px";
+                    myTimer();
+                    counter++;
+                }
+            }
+        } else{
+            moveBool = false;
+            clearInterval(anim);
+        }
+    } else { //For normal Play
+        if (vel >= 0) { //For positive velocity, check right limit
+            if (pos >= 1173) {
+                moveBool = false;
+                clearInterval(anim);
+            } else {
+                moveBool = true;
+                pos += vel;
+                vel += (acc / 100.);
+                elem.style.left = pos + "px";
+                myTimer();
+            }
+        } else { //For negative velocity, check left limit
+            if (pos <= 0) {
+                moveBool = false;
+                clearInterval(anim);
+            } else {
+                moveBool = true;
+                pos += vel;
+                vel += (acc / 100.);
+                elem.style.left = pos + "px";
+                myTimer();
+            }
+        }
+    }
+}
+
+function reverseFrame(step) {
+    if (vel > 0) { //For positive velocity, check left limit for reverse step //
+        if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+            moveBool = false;
+            clearInterval(anim);
+        } else if (pos <= 0) {
+            moveBool = false;
+            clearInterval(anim);
+        } else {
+            if (counter < step) {
+                moveBool = true;
+                vel -= (acc / 100.);
+                pos -= vel;
+                elem.style.left = pos + "px";
+                reverseTimer();
+                counter++;
+            } else {
+                moveBool = false;
+                clearInterval(anim);
+            }
+        }
+    } else if (vel == 0.) {
+        if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+            moveBool = false;
+            clearInterval(anim);
+        } else if (pos < 0) {
+            moveBool = false;
+            clearInterval(anim);
+        } else {
+            if (counter < step) {
+                moveBool = true;
+                vel -= (acc / 100.);
+                pos -= vel;
+                elem.style.left = pos + "px";
+                reverseTimer();
+                counter++;
+            } else {
+                moveBool = false;
+                clearInterval(anim);
+            }
+        }
+    } else { //For negative velocity, check right limit for reverse step //
+        if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
+            moveBool = false;
+            clearInterval(anim);
+        } else if (pos >= 1173) {
+            moveBool = false;
+            clearInterval(anim);
+        } else {
+            if (counter < step) {
+                moveBool = true;
+                vel -= (acc / 100.);
+                pos -= vel;
+                elem.style.left = pos + "px";
+                reverseTimer();
+                counter++;
+            } else {
+                moveBool = false;
+                clearInterval(anim);
+            }
+        }
+    }
+}
+
+function myTimer() {
+    ms2++;
+    if (ms2 == 10) {
+        ms1++;
+        ms2 = 0;
+    }
+    if (ms1 == 10) {
+        s2++;
+        ms1 = 0;
+    }
+    if (s2 == 10) {
+        s1++;
+        s2 = 0;
+    }
+    if (s1 == 6) {
+        m2++;
+        s1 = 0;
+    }
+    if (m2 == 10) {
+        m1++;
+        m2 = 0;
+    }
+    document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+}
+
+function reverseTimer() {
+    ms2--;
+    if (ms2 == -1) {
+        ms1--;
+        ms2 = 9;
+    }
+    if (ms1 == -1) {
+        s2--;
+        ms1 = 9;
+    }
+    if (s2 == -1) {
+        s1--;
+        s2 = 9;
+    }
+    if (s1 == -1) {
+        m2--;
+        s1 = 9;
+    }
+    if (m2 == -1) {
+        m1--;
+        m2 = 9;
+    }
+    if (m1 == -1) {
+        m1 = 0;
+    }
+    document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+}
+
+function pause() {
+    moveBool = false;
+    clearInterval(anim);
+}
+
+function reset() {
+    moveBool = false;
+    clearInterval(anim);
+    m1 = 0;
+    m2 = 0;
+    s1 = 0;
+    s2 = 0;
+    ms1 = 0;
+    ms2 = 0;
+    pos = 0;
+    elem.style.left = 0;
+    document.getElementById("timer").innerHTML = "<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 + ":" + ms1 + ms2 + "</font>";
+    velslider = document.getElementById("velslider");
+    accslider = document.getElementById("accslider");
+    vel = velslider.value / 7.0175 * 4;
+    acc = accslider.value / 7.0175 * 4;
+}
+
+function rightStep() {
+    if (moveBool == true) {
+        return;
+    } else {
+        var steplength = Number(document.getElementById("stepinput").value) * 100; //step length based on input
+        counter = 0;
+        anim = setInterval(frame, 10, steplength); // 10ms per frame, i.e. 100 frames per second
+    }
+}
+
+function leftStep() {
+    if (moveBool == true) {
+        return;
+    } else {
+        var steplength = Number(document.getElementById("stepinput").value) * 100; //step length based on input
+        counter = 0;
+        anim = setInterval(reverseFrame, 10, steplength); // 10ms per frame, i.e. 100 frames per second
+    }
+}
+</script>
+
+</body>
+</html>
+
