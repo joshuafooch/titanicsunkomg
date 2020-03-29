@@ -1,0 +1,291 @@
+:root {
+    --promptWidth: 250px;
+    --promptHeight: 180px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.row {
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    /* background-color: gray; */
+}
+
+.title {
+    margin: 0px;
+    padding: 0px;
+    height: 100px;
+    font-size: 30px;
+    position: relative;
+}
+
+.turnReminder {
+    margin: 0px;
+    padding: 0px;
+    height: 50px;
+    font-size: 20px;
+    animation: increaseFont 0.75s ease alternate infinite;
+    position: relative;
+}
+
+@keyframes increaseFont {
+    from {font-size: 20px;}
+
+    to {font-size: 25px;}
+}
+
+.container {
+    margin: 0px;
+    padding: 0px;
+    width: var(--boardSize);
+    height: var(--boardSize);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: translate(calc(var(--gridSize) * -1), 0);
+    /* background-color: black; */
+}
+
+.ylabel {
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left: 0px;
+    width: var(--gridSize);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.ylabelbox {
+    margin: 0px;
+    padding-top: 10px;
+    padding-right: 20px;
+    height: var(--gridSize);
+    width: var(--gridSize);
+    text-align: end;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.xlabel {
+    margin: 0px;
+    padding: 0px;
+    top: var(--boardSize);
+    left: 0px;
+    height: var(--gridSize);
+    display: flex;
+    position: absolute;
+}
+
+.xlabelbox {
+    margin: 0px;
+    padding-top: 10px;
+    height: var(--gridSize);
+    width: var(--gridSize);
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.gridcontainer1 {
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left: var(--gridSize);
+    display: flex;
+    flex-wrap: wrap;
+    width: var(--boardSize);
+    background-color: #BBBBBB;
+    border-top: solid 1px;
+    border-left: solid 1px;
+    position: absolute;
+}
+
+.gridcontainer2 {
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left: var(--gridSize);
+    display: flex;
+    flex-wrap: wrap;
+    width: var(--boardSize);
+    background-color: #BBBBBB;
+    border-top: solid 1px;
+    border-left: solid 1px;
+    position: absolute;
+}
+
+.box {
+    margin: 0px;
+    padding: 0px;
+    height: var(--gridSize);
+    width: var(--gridSize);
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    box-sizing: border-box;
+    transition: background-color 0.75s ease;
+}
+
+.box:hover {
+    background-color: white;
+}
+
+.ship1 {
+    background-color: #E29285;
+}
+
+.ship1:hover {
+    background-color: #E29285;
+}
+
+.ship2 {
+    background-color: #EFAD6C;
+}
+
+.ship2:hover {
+    background-color: #EFAD6C;
+}
+
+.ship3 {
+    background-color: #F7F190;
+}
+
+.ship3:hover {
+    background-color: #F7F190;
+}
+
+.ship4 {
+    background-color: #90F696;
+}
+
+.ship4:hover {
+    background-color: #90F696;
+}
+
+.ship5 {
+    background-color: #969FE9;
+}
+
+.ship5:hover {
+    background-color: #969FE9;
+}
+
+.hit {
+    background-color: #E5882B;
+    animation: hitAnimation 0.75s ease alternate infinite;
+}
+
+@keyframes hitAnimation {
+    from {
+        background-color: #E5882B;
+    }
+
+    to {
+        background-color: #FCDE4A;
+    }
+}
+
+.miss {
+    background-color: #3892D7;
+}
+
+.miss:hover {
+    background-color: #3892D7;
+}
+
+.player1Prompt {
+    position: absolute;
+    width: var(--promptWidth);
+    height: var(--promptHeight);
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    opacity: 95%;
+    transform: translate(calc(var(--promptWidth) / 2 * -1  + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player2Prompt {
+    position: absolute;
+    width: var(--promptWidth);
+    height: var(--promptHeight);
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    opacity: 95%;
+    transform: translate(calc(var(--promptWidth) / 2 * -1  + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ship1Prompt {
+    position: absolute;
+    width: var(--promptWidth);
+    height: var(--promptHeight);
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    opacity: 95%;
+    transform: translate(calc(var(--promptWidth) / 2 * -1  + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ship2Prompt {
+    position: absolute;
+    width: var(--promptWidth);
+    height: var(--promptHeight);
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    opacity: 95%;
+    transform: translate(calc(var(--promptWidth) / 2 * -1  + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt {
+    position: absolute;
+    width: var(--promptWidth);
+    height: var(--promptHeight);
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    opacity: 95%;
+    transform: translate(calc(var(--promptWidth) / 2 * -1  + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompted {
+    background-color: white;
+}
