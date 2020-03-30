@@ -1,19 +1,28 @@
 ﻿var ships1 = [];
 var ships2 = [];
 var promptBool = true;
-var ships1Count = 17;
-var ships2Count = 17;
-var clickInput = [0, 0];
+var ships1Count = 0;
+var ships2Count = 0;
+for (let c of shipLengths) {
+    ships1Count += c;
+    ships2Count += c;
+}
+var clickInput = [1, 1];
 var typeInput = [0, 0];
 var checkIndex;
 var player1Name = "Player 1";
 var player2Name = "Player 2";
-var turnDelay = 3000;
+var turnDelay = 3500;
 var turn = 1;
+var countdown;
+var count = 0;
+var roundTime = 15;
+$(".lds-ring").hide();
 $(".player2Prompt").hide();
 $(".ship1Prompt").hide();
 $(".ship2Prompt").hide();
 $(".prompt").hide();
+$(".gameover").hide();
 
 
 // setup ships
@@ -82,7 +91,7 @@ for (let i = 1; i <= gridNum; i++) {
 }
 
 //Initialise names
-document.getElementById("turnReminder").innerHTML = "Enter Player 1's name!";
+document.getElementById("turnReminder").innerHTML = "Enter <span style='font-weight: bold'>Player 1's</span> name!";
 $(".gridcontainer1").show();
 $(".gridcontainer2").hide();
 
@@ -90,14 +99,14 @@ function submitName1() {
     player1Name = document.getElementById("player1Name").value;
     $(".player1Prompt").hide();
     $(".player2Prompt").show();
-    document.getElementById("turnReminder").innerHTML = "Enter Player 2's name!";
+    document.getElementById("turnReminder").innerHTML = "Enter <span style='font-weight: bold;'>Player 2's</span> name!";
 }
 
 function submitName2() {
     player2Name = document.getElementById("player2Name").value;
     $(".player2Prompt").hide();
     $(".ship1Prompt").show();
-    document.getElementById("turnReminder").innerHTML = player1Name + "'s turn to select ship positions!";
+    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to select ship positions!";
     generateShip(ships1);
 }
 
@@ -116,7 +125,7 @@ function submitShip1() {
     $(".ship1Prompt").hide();
     $(".gridcontainer2").show();
     $(".ship2Prompt").show();
-    document.getElementById("turnReminder").innerHTML = player2Name + "'s turn to select ship positions!";
+    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "'s</span> turn to select ship positions!";
     generateShip(ships2);
 
 }
@@ -135,8 +144,9 @@ function submitShip2() {
     $(".gridcontainer2").hide();
     $(".ship2Prompt").hide();
     $(".gridcontainer1").show();
-    document.getElementById("turnReminder").innerHTML = player1Name + "'s turn to attack!";
+    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to attack!";
     promptBool = false;
+    timer(roundTime);
 }
 
 function generateShip(ship) {
@@ -197,7 +207,6 @@ function generateShip(ship) {
                             $("#" + index).toggleClass("ship" + n);
                         }
                     }
-                    console.log(orientation, shipToCheck, X, Y);
                     break;
                 }
             }
@@ -208,67 +217,110 @@ function generateShip(ship) {
 
 
 function fireAway() {
+    clearInterval(countdown);
+    document.getElementById("timer").innerHTML = "";
     let targetBox = document.getElementById(turn.toString().concat(clickInput[0].toString().concat(clickInput[1].toString())));
     targetBox.classList.remove("prompted");
     typeInput[0] = Number(document.getElementById("promptX").value);
     typeInput[1] = Number(document.getElementById("promptY").value);
     if (clickInput[0] == typeInput[0] && clickInput[1] == typeInput[1]) {
-        console.log("Typed correct coordinate");
-        console.log(targetBox.id);
+        document.getElementById("turnReminder").innerHTML = "Attacking (" + typeInput[0] + ", " + typeInput[1] + "), ";
         if (turn == 1) { //Player 1's turn
             if (ships2[checkIndex] == true) {
                 targetBox.classList.add("hit");
                 $(".prompt").hide();
-                document.getElementById("turnReminder").innerHTML = player1Name + " hit " + player2Name + "!";
+                let text = player1Name + " hit " + player2Name + "!";
+                document.getElementById("turnReminder").appendChild(document.createTextNode(text));
                 ships2Count--;
                 if (ships2Count == 0) {
-                    console.log("gameover");
+                    $(".gameover").show();
+                    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> won the match!";
                 }
             } else {
                 targetBox.classList.add("miss");
                 $(".prompt").hide();
-                document.getElementById("turnReminder").innerHTML = player1Name + " missed " + player2Name + "!";
+                let text = player1Name + " missed " + player2Name + "!";
+                document.getElementById("turnReminder").appendChild(document.createTextNode(text));
             }
         } else { //Player 2's turn
             if (ships1[checkIndex] == true) {
                 targetBox.classList.add("hit");
                 $(".prompt").hide();
-                document.getElementById("turnReminder").innerHTML = player2Name + " hit " + player1Name + "!";
+                let text = player2Name + " hit " + player1Name + "!";
+                document.getElementById("turnReminder").appendChild(document.createTextNode(text));
                 ships1Count--;
                 if (ships1Count == 0) {
-                    console.log("gameover");
+                    $(".gameover").show();
+                    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> won the match!";
                 }
             } else {
                 targetBox.classList.add("miss");
                 $(".prompt").hide();
-                document.getElementById("turnReminder").innerHTML = player2Name + " missed " + player1Name + "!";
+                let text = player2Name + " missed " + player1Name + "!";
+                document.getElementById("turnReminder").appendChild(document.createTextNode(text));
             }
         }
     } else {
         if (turn == 1) {
-            document.getElementById("turnReminder").innerHTML = player1Name + " typed in the wrong coordinates. Attack failed!";
+            document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         } else {
-            document.getElementById("turnReminder").innerHTML = player2Name + " typed in the wrong coordinates. Attack failed!";
+            document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         }
     }
 
     // Change turn
+    if (ships1Count == 0 || ships2Count == 0) return;
+    changeTurn();
+}
+
+
+function timer(sec) {
+    count = sec;
+    document.getElementById("timer").innerHTML = count;
+    countdown = setInterval(showTime, 1000);
+}
+
+function showTime(max) {
+    if (count <= 0) {
+        clearInterval(countdown);
+        document.getElementById("timer").innerHTML = "";
+        promptBool = true;
+        $(".prompt").hide();
+        let targetBox = document.getElementById(turn.toString().concat(clickInput[0].toString().concat(clickInput[1].toString())));
+        targetBox.classList.remove("prompted");
+
+        //change turn
+        changeTurn();
+
+        return;
+    }
+    count--;
+    document.getElementById("timer").innerHTML = count;
+}
+
+
+function changeTurn() {
+    $(".lds-ring").show();
     turn *= -1;
     if (turn == 1) {
         setTimeout(() => {
             $(".gridcontainer1").show();
             $(".gridcontainer2").hide();
-            document.getElementById("turnReminder").innerHTML = player1Name + "'s turn to attack!";
+            document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to attack!";
             promptBool = false;
+            timer(roundTime);
+            $(".lds-ring").hide();
         }, turnDelay);
     } else {
         setTimeout(() => {
             $(".gridcontainer1").hide();
             $(".gridcontainer2").show();
-            document.getElementById("turnReminder").innerHTML = player2Name + "'s turn to attack!";
+            document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "'s</span> turn to attack!";
             promptBool = false;
+            timer(roundTime);
+            $(".lds-ring").hide();
         }, turnDelay);
     }
 }
