@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cartesian Battleships!</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="settings.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div style="height: 5vh;"></div>
+        <div class="title">
+            <h1 style="font-size: 80px;">Cartesian Battleships</h1>
+        </div>
+        <div class="turnReminder" id="turnReminder"></div>
+        <div class="container" id="container">
+            <div class="ylabel" id="ylabel"></div>
+
+            <div class="timercontainer" id="timercontainer">
+                <div class="timer" id="timer"></div>
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="gridcontainer1" id="gridcontainer1"></div>
+
+            <div class="gridcontainer2" id="gridcontainer2"></div>
+
+            <div class="player1Prompt">
+                <div>
+                    <h6 style="font-size: 18px; font-weight: 400;">Player 1, what is your name?</h6>
+                </div>
+                <div>
+                    <input type="text" id="player1Name" name="player1Name" style="text-align: center;">
+                </div>
+                <div>
+                    <input type="submit" value="Submit" onclick="submitName1()" style="margin-bottom: 0px;">
+                </div>
+            </div>
+            <div class="player2Prompt">
+                <div>
+                    <h6 style="font-size: 18px; font-weight: 400;">Player 2, what is your name?</h6>
+                </div>
+                <div>
+                    <input type="text" id="player2Name" name="player2Name" style="text-align: center;">
+                </div>
+                <div>
+                    <input type="submit" value="Submit" onclick="submitName2()" style="margin-bottom: 0px;">
+                </div>
+            </div>
+            <div class="ship1Prompt">
+                <div id="ship1PromptContent"></div>
+                <div>
+                    <input type="submit" value="Randomise!" onclick="generateShip(ships1)">
+                </div>
+                <div>
+                    <input type="submit" value="Okay!" onclick="submitShip1()" style="margin-bottom: 0px;">
+                </div>
+            </div>
+            <div class="ship2Prompt">
+                <div id="ship2PromptContent"></div>
+                <div>
+                    <input type="submit" value="Randomise!" onclick="generateShip(ships2)">
+                </div>
+                <div>
+                    <input type="submit" value="Okay!" onclick="submitShip2()" style="margin-bottom: 0px;">
+                </div>
+            </div>
+
+            <div class="prompt">
+                <div>
+                    <h5 style="font-weight: 400; margin-bottom: 0px;">Enter coordinates:</h5>
+                </div>
+                <div style="margin-bottom: 0px; font-size: 35px;">
+                    ( <input type="text" id="promptX" name="promptX" style="text-align: center; height: 50px; width: 70px; font-family: Helvetica;"> ,
+                    <input type="text" id="promptY" name="promptY" style="text-align: center; height: 50px; width: 70px; font-family: Helvetica;"> )
+                </div>
+                <div>
+                    <input type="submit" value="Submit" onclick="fireAway()" style="margin-bottom: 0px;">
+                </div>
+            </div>
+
+            <div class="hitmisscontainer">
+                <div class="hitmiss" id="hitmiss"></div>
+            </div>
+
+            <div class="gameover">
+                <div>
+                    <h4>Gameover!</h4>
+                </div>
+                <div id="gameoverContent"></div>
+                <div>
+                    <input type="submit" value="Restart" onclick="location.reload()">
+                </div>
+            </div>
+
+            <div class="xlabel" id="xlabel">
+                <div class="xlabelbox"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
