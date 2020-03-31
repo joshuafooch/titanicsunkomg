@@ -12,7 +12,7 @@ var typeInput = [0, 0];
 var checkIndex;
 var player1Name = "Player 1";
 var player2Name = "Player 2";
-var turnDelay = 3500;
+var turnDelay = 4500;
 var turn = 1;
 var countdown;
 var count = 0;
@@ -22,6 +22,7 @@ $(".player2Prompt").hide();
 $(".ship1Prompt").hide();
 $(".ship2Prompt").hide();
 $(".prompt").hide();
+$(".hitmiss").hide();
 $(".gameover").hide();
 
 
@@ -40,7 +41,7 @@ for (let j = gridNum; j > 0; j--) {
         let newBox = document.createElement('div');
 
         newBox.onclick = () => {
-            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss")) return;
+            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss2")) return;
             newBox.classList.toggle("prompted");
             $(".prompt").show();
             promptBool = true;
@@ -61,7 +62,7 @@ for (let j = gridNum; j > 0; j--) {
         let newBox = document.createElement('div');
 
         newBox.onclick = () => {
-            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss")) return;
+            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss2")) return;
             newBox.classList.toggle("prompted");
             $(".prompt").show();
             promptBool = true;
@@ -140,13 +141,22 @@ function submitShip2() {
         }
     }
 
-    turn *= -1;
+    //get ready
+    $(".lds-ring").show();
     $(".gridcontainer2").hide();
     $(".ship2Prompt").hide();
     $(".gridcontainer1").show();
-    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to attack!";
-    promptBool = false;
-    timer(roundTime);
+    document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span>, get ready!";
+
+
+    setTimeout(() => {
+        turn *= -1;
+        $(".lds-ring").hide();
+        document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to attack!";
+        promptBool = false;
+        alert("START!");
+        timer(roundTime);
+    }, 3000);
 }
 
 function generateShip(ship) {
@@ -226,7 +236,8 @@ function fireAway() {
     if (clickInput[0] == typeInput[0] && clickInput[1] == typeInput[1]) {
         document.getElementById("turnReminder").innerHTML = "Attacking (" + typeInput[0] + ", " + typeInput[1] + "), ";
         if (turn == 1) { //Player 1's turn
-            if (ships2[checkIndex] == true) {
+            if (ships2[checkIndex] == true) { //hit
+                alert("HIT!");
                 targetBox.classList.add("hit");
                 $(".prompt").hide();
                 let text = player1Name + " hit " + player2Name + "!";
@@ -236,14 +247,20 @@ function fireAway() {
                     $(".gameover").show();
                     document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> won the match!";
                 }
-            } else {
+            } else { //miss
+                alert("MISS!");
                 targetBox.classList.add("miss");
+                setTimeout(() => {
+                    targetBox.classList.remove("miss");
+                    targetBox.classList.add("miss2");
+                }, 3000);
                 $(".prompt").hide();
                 let text = player1Name + " missed " + player2Name + "!";
                 document.getElementById("turnReminder").appendChild(document.createTextNode(text));
             }
         } else { //Player 2's turn
-            if (ships1[checkIndex] == true) {
+            if (ships1[checkIndex] == true) { //hit
+                alert("HIT!");
                 targetBox.classList.add("hit");
                 $(".prompt").hide();
                 let text = player2Name + " hit " + player1Name + "!";
@@ -253,8 +270,13 @@ function fireAway() {
                     $(".gameover").show();
                     document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> won the match!";
                 }
-            } else {
+            } else { //miss
+                alert("MISS!");
                 targetBox.classList.add("miss");
+                setTimeout(() => {
+                    targetBox.classList.remove("miss");
+                    targetBox.classList.add("miss2");
+                }, 3000);
                 $(".prompt").hide();
                 let text = player2Name + " missed " + player1Name + "!";
                 document.getElementById("turnReminder").appendChild(document.createTextNode(text));
@@ -262,9 +284,11 @@ function fireAway() {
         }
     } else {
         if (turn == 1) {
+            alert("WRONG COORDINATES!");
             document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         } else {
+            alert("WRONG COORDINATES!");
             document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         }
@@ -303,6 +327,9 @@ function showTime(max) {
 
 function changeTurn() {
     $(".lds-ring").show();
+    document.getElementById("promptX").value = "";
+    document.getElementById("promptY").value = "";
+    document.getElementById("turnReminder").innerHTML = "Switching turns...";
     turn *= -1;
     if (turn == 1) {
         setTimeout(() => {
@@ -323,4 +350,15 @@ function changeTurn() {
             $(".lds-ring").hide();
         }, turnDelay);
     }
+}
+
+function alert(message) {
+    document.getElementById("hitmiss").innerHTML = message;
+    $(".hitmiss").toggleClass("alert");
+    $(".hitmiss").show();
+    setTimeout(() => {
+        document.getElementById("hitmiss").innerHTML = "";
+        $(".hitmiss").toggleClass("alert");
+        $(".hitmiss").hide();
+    }, 2000);
 }
