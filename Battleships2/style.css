@@ -261,19 +261,9 @@ body {
 
 .ship1 {
     background-color: #E29285;
-    animation: none;
-}
-
-.ship1:hover .selector {
-    background-color: #E29285;
-    animation: none;
 }
 
 .ship2 {
-    background-color: #969FE9;
-}
-
-.ship2:hover {
     background-color: #969FE9;
 }
 
@@ -281,23 +271,12 @@ body {
     background-color: #F7F190;
 }
 
-.ship3:hover {
-    background-color: #F7F190;
-}
-
 .ship4 {
     background-color: #90F696;
 }
 
-.ship4:hover {
-    background-color: #90F696;
-}
 
 .ship5 {
-    background-color: #EFAD6C;
-}
-
-.ship5:hover {
     background-color: #EFAD6C;
 }
 
@@ -497,7 +476,7 @@ body {
     visibility: visible;
 }
 
-.alert {
+.alertshort {
     animation: alertAnimation 2s ease forwards;
 }
 
@@ -523,6 +502,36 @@ body {
 
     100% {
         font-size: calc(var(--boardSize) * 0.5);
+        opacity: 0;
+    }
+}
+
+.alertlong {
+    animation: alertAnimation2 2s ease forwards;
+}
+
+@keyframes alertAnimation2 {
+    0% {
+        font-size: calc(var(--boardSize) * 0.35);
+        opacity: 0.8;
+    }
+
+    10% {
+        font-size: calc(var(--boardSize) * 0.5);
+        opacity: 0.8;
+    }
+
+    60% {
+        font-size: calc(var(--boardSize) * 0.25);
+        opacity: 0.4;
+    }
+
+    80% {
+        font-size: calc(var(--boardSize) * 0.25);
+    }
+
+    100% {
+        font-size: calc(var(--boardSize) * 0.25);
         opacity: 0;
     }
 }

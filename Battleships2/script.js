@@ -95,7 +95,7 @@ for (let j = gridNum; j > 0; j--) {
             $(".prompt").show();
             promptBool = true;
             checkIndex = (i - 1) + (j - 1) * gridNum;
-            
+
             //convert id index (from 1 to gridNum for each axis) to fit the actual coordinates
             let xcoord = -1 * Math.floor((gridNum - 1) / 2) + i - 1;
             let ycoord = -1 * Math.floor((gridNum - 1) / 2) + j - 1;
@@ -203,7 +203,7 @@ function submitShip2() {
         $(".lds-ring").hide();
         document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "'s</span> turn to attack!";
         promptBool = false;
-        alert("START!");
+        alert("START!", "short");
         timer(roundTime);
     }, 3000);
 }
@@ -328,7 +328,7 @@ function fireAway() {
         document.getElementById("turnReminder").innerHTML = "Attacking (" + typeInput[0] + ", " + typeInput[1] + "), ";
         if (turn == 1) { //Player 1's turn
             if (ships2[checkIndex] == true) { //hit
-                alert("HIT!");
+                alert("HIT!", "short");
                 targetBox.classList.add("hit");
                 targetBox.classList.remove("selectoranimate");
                 $(".prompt").hide();
@@ -340,7 +340,7 @@ function fireAway() {
                     document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> won the match!";
                 }
             } else { //miss
-                alert("MISS!");
+                alert("MISS!", "short");
                 targetBox.classList.add("miss");
                 targetBox.classList.remove("selectoranimate");
                 setTimeout(() => {
@@ -353,7 +353,7 @@ function fireAway() {
             }
         } else { //Player 2's turn
             if (ships1[checkIndex] == true) { //hit
-                alert("HIT!");
+                alert("HIT!", "short");
                 targetBox.classList.add("hit");
                 targetBox.classList.remove("selectoranimate");
                 $(".prompt").hide();
@@ -365,7 +365,7 @@ function fireAway() {
                     document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> won the match!";
                 }
             } else { //miss
-                alert("MISS!");
+                alert("MISS!", "short");
                 targetBox.classList.add("miss");
                 targetBox.classList.remove("selectoranimate");
                 setTimeout(() => {
@@ -379,11 +379,11 @@ function fireAway() {
         }
     } else {
         if (turn == 1) {
-            alert("WRONG COORDINATES!");
+            alert("WRONG COORDINATES!", "long");
             document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player1Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         } else {
-            alert("WRONG COORDINATES!");
+            alert("WRONG COORDINATES!", "long");
             document.getElementById("turnReminder").innerHTML = "<span style='font-weight: bold;'>" + player2Name + "</span> typed in the wrong coordinates. Attack failed!";
             $(".prompt").hide();
         }
@@ -447,13 +447,24 @@ function changeTurn() {
     }
 }
 
-function alert(message) {
-    document.getElementById("hitmiss").innerHTML = message;
-    $(".hitmiss").toggleClass("alert");
-    $(".hitmiss").show();
-    setTimeout(() => {
-        document.getElementById("hitmiss").innerHTML = "";
-        $(".hitmiss").toggleClass("alert");
-        $(".hitmiss").hide();
-    }, 2000);
+function alert(message, length) {
+    if (length == "long") {
+        document.getElementById("hitmiss").innerHTML = message;
+        $(".hitmiss").toggleClass("alertlong");
+        $(".hitmiss").show();
+        setTimeout(() => {
+            document.getElementById("hitmiss").innerHTML = "";
+            $(".hitmiss").toggleClass("alertlong");
+            $(".hitmiss").hide();
+        }, 2000);
+    } else {
+        document.getElementById("hitmiss").innerHTML = message;
+        $(".hitmiss").toggleClass("alertshort");
+        $(".hitmiss").show();
+        setTimeout(() => {
+            document.getElementById("hitmiss").innerHTML = "";
+            $(".hitmiss").toggleClass("alertshort");
+            $(".hitmiss").hide();
+        }, 2000);
+    }
 }
