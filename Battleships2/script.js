@@ -47,7 +47,7 @@ for (let j = gridNum; j > 0; j--) {
         let box4 = document.createElement('div');
 
         newBox.onclick = () => {
-            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss2")) return;
+            if (promptBool == true || newBox.children[0].classList.contains("hit") || newBox.children[0].classList.contains("miss2")) return;
             newBox.children[0].classList.toggle("prompted");
             $(".prompt").show();
             promptBool = true;
@@ -63,7 +63,8 @@ for (let j = gridNum; j > 0; j--) {
         newBox.className = "box";
         selector.id = "1".concat(i.toString().concat(j.toString()));
         // newBox.innerHTML = i.toString().concat(j.toString());
-        selector.className = "selector";
+        selector.classList.add("selector");
+        selector.classList.add("selectoranimate");
         box1.className = "box1";
         box2.className = "box2";
         box3.className = "box3";
@@ -89,7 +90,7 @@ for (let j = gridNum; j > 0; j--) {
         let box4 = document.createElement('div');
 
         newBox.onclick = () => {
-            if (promptBool == true || newBox.classList.contains("hit") || newBox.classList.contains("miss2")) return;
+            if (promptBool == true || newBox.children[0].classList.contains("hit") || newBox.children[0].classList.contains("miss2")) return;
             newBox.children[0].classList.toggle("prompted");
             $(".prompt").show();
             promptBool = true;
@@ -105,7 +106,8 @@ for (let j = gridNum; j > 0; j--) {
         newBox.className = "box";
         selector.id = "-1".concat(i.toString().concat(j.toString()));
         // newBox.innerHTML = i.toString().concat(j.toString());
-        selector.className = "selector";
+        selector.classList.add("selector");
+        selector.classList.add("selectoranimate");
         box1.className = "box1";
         box2.className = "box2";
         box3.className = "box3";
@@ -162,6 +164,7 @@ function submitShip1() {
             let index = turn.toString().concat(i.toString()).concat(j.toString());
             $("#" + index).removeClass();
             $("#" + index).addClass("selector");
+            $("#" + index).addClass("selectoranimate");
         }
     }
     undrawShip();
@@ -182,6 +185,7 @@ function submitShip2() {
             let index = turn.toString().concat(i.toString()).concat(j.toString());
             $("#" + index).removeClass();
             $("#" + index).addClass("selector");
+            $("#" + index).addClass("selectoranimate");
         }
     }
     undrawShip();
@@ -211,6 +215,7 @@ function generateShip(ship) {
             let index = turn.toString().concat(i.toString()).concat(j.toString());
             $("#" + index).removeClass();
             $("#" + index).addClass("selector");
+            $("#" + index).addClass("selectoranimate");
         }
     }
 
@@ -259,10 +264,12 @@ function generateShip(ship) {
                         if (orientation == 0) {
                             let index = turn.toString().concat((X + i).toString()).concat(Y.toString());
                             $("#" + index).toggleClass("ship" + n);
+                            $("#" + index).toggleClass("selectoranimate");
                             drawShip(n, X, Y, orientation, shipLengths[n - 1]);
                         } else {
                             let index = turn.toString().concat(X.toString()).concat((Y + i).toString());
                             $("#" + index).toggleClass("ship" + n);
+                            $("#" + index).toggleClass("selectoranimate");
                             drawShip(n, X, Y, orientation, shipLengths[n - 1]);
                         }
                     }
@@ -323,6 +330,7 @@ function fireAway() {
             if (ships2[checkIndex] == true) { //hit
                 alert("HIT!");
                 targetBox.classList.add("hit");
+                targetBox.classList.remove("selectoranimate");
                 $(".prompt").hide();
                 let text = player1Name + " hit " + player2Name + "!";
                 document.getElementById("turnReminder").appendChild(document.createTextNode(text));
@@ -334,6 +342,7 @@ function fireAway() {
             } else { //miss
                 alert("MISS!");
                 targetBox.classList.add("miss");
+                targetBox.classList.remove("selectoranimate");
                 setTimeout(() => {
                     targetBox.classList.remove("miss");
                     targetBox.classList.add("miss2");
@@ -346,6 +355,7 @@ function fireAway() {
             if (ships1[checkIndex] == true) { //hit
                 alert("HIT!");
                 targetBox.classList.add("hit");
+                targetBox.classList.remove("selectoranimate");
                 $(".prompt").hide();
                 let text = player2Name + " hit " + player1Name + "!";
                 document.getElementById("turnReminder").appendChild(document.createTextNode(text));
@@ -357,6 +367,7 @@ function fireAway() {
             } else { //miss
                 alert("MISS!");
                 targetBox.classList.add("miss");
+                targetBox.classList.remove("selectoranimate");
                 setTimeout(() => {
                     targetBox.classList.remove("miss");
                     targetBox.classList.add("miss2");

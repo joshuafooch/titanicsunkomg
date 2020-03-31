@@ -204,7 +204,7 @@ body {
     /* opacity: 0.8; */
 }
 
-.box:hover .selector{
+.box:hover .selectoranimate{
     background-color: rgb(184, 97, 97);
     animation: hoverAnimation 0.5s linear alternate infinite;
 }
@@ -261,10 +261,12 @@ body {
 
 .ship1 {
     background-color: #E29285;
+    animation: none;
 }
 
-.ship1:hover {
+.ship1:hover .selector {
     background-color: #E29285;
+    animation: none;
 }
 
 .ship2 {
@@ -396,6 +398,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    z-index: 100;
 }
 
 .player2Prompt {
@@ -414,6 +417,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    z-index: 100;
 }
 
 .ship1Prompt {
@@ -432,6 +436,7 @@ body {
     justify-content: center;
     border-radius: 5px;
     text-align: center;
+    z-index: 100;
 }
 
 .ship2Prompt {
@@ -451,6 +456,7 @@ body {
     justify-content: center;
     border-radius: 5px;
     text-align: center;
+    z-index: 100;
 }
 
 .prompt {
@@ -469,6 +475,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    z-index: 100;
 }
 
 .hitmisscontainer {
@@ -484,7 +491,7 @@ body {
 }
 
 .hitmiss {
-    z-index: 6;
+    z-index: 200;
     color: #444444;
     opacity: 0.8;
     visibility: visible;
@@ -536,6 +543,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    z-index: 100;
 }
 
 .prompted {
