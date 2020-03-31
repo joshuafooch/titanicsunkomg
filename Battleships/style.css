@@ -25,7 +25,7 @@ body {
     background-image: url("bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 30%;
+    opacity: 0.3;
     visibility: visible;
     position: absolute;
     top: 0px;
@@ -136,7 +136,7 @@ body {
     color: white;
     font-size: calc(var(--boardSize) * 0.95);
     font-family: Helvetica;
-    opacity: 50%;
+    opacity: 0.5;
     visibility: visible;
     animation: timerFont 0.5s ease alternate infinite;
 }
@@ -316,7 +316,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
@@ -334,7 +334,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
@@ -352,7 +352,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
     flex-direction: column;
@@ -369,7 +369,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
@@ -387,7 +387,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
@@ -412,7 +412,7 @@ body {
 .hitmiss {
     z-index: 6;
     color: #444444;
-    opacity: 80%;
+    opacity: 0.8;
     visibility: visible;
 }
 
@@ -423,17 +423,17 @@ body {
 @keyframes alertAnimation {
     0% {
         font-size: calc(var(--boardSize) * 0.7);
-        opacity: 80%;
+        opacity: 0.8;
     }
 
     10% {
         font-size: calc(var(--boardSize) * 1);
-        opacity: 80%;
+        opacity: 0.8;
     }
 
     60% {
         font-size: calc(var(--boardSize) * 0.5);
-        opacity: 40%;
+        opacity: 0.4;
     }
 
     80% {
@@ -442,7 +442,7 @@ body {
 
     100% {
         font-size: calc(var(--boardSize) * 0.5);
-        opacity: 0%;
+        opacity: 0;
     }
 }
 
@@ -454,7 +454,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 95%;
+    opacity: 0.95;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
