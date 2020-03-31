@@ -352,13 +352,14 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 0.95;
+    opacity: 0.85;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    text-align: center;
 }
 
 .ship2Prompt {
@@ -369,7 +370,7 @@ body {
     top: 50%;
     left: 50%;
     background-color: white;
-    opacity: 0.95;
+    opacity: 0.85;
     visibility: visible;
     transform: translate(calc(var(--promptWidth) / 2 * -1 + var(--gridSize)), calc(var(--promptHeight) / 2 * -1));
     display: flex;
@@ -377,6 +378,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    text-align: center;
 }
 
 .prompt {
