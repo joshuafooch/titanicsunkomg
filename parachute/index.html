@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="cloud.js"></script>
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+    <div class="mainwindow">
+        <div class="topfill"></div>
+        <div class="maincontainer">
+            <div class="leftfill"></div>
+            <div class="graphic" id="graphic">
+                <div class="plane flying">
+                    <img src="https://cdn.clipart.email/07d9c0e119bbd9d84990999d3817b77c_skydiving-plane-clipart-clipartxtras_800-327.svg"
+                        style="width: 300px;">
+                </div>
+                <div class="skydiver flying2">
+                    <div id="parachute"></div>
+                    <div class="man falling">
+                        <img src="man.png" style="width: 200px;">
+                    </div>
+                    <div class="weight">
+                        <img src="weightbody.png" class="weightbody">
+                        <img src="weighthead.png" class="weighthead">
+                    </div>
+                    <div class="airresistance">
+                        <img src="resistancehead.png" class="resistancehead">
+                        <img src="resistancebody.png" class="resistancebody">
+                    </div>
+                </div>
+                <div class="parachuteselector">
+                    <input class="button-primary" type="button" value="Open small parachute" onclick="smallChute()">
+                    <input class="button-primary" type="button" value="Open large parachute" onclick="largeChute()">
+                </div>
+                <div class="massselector">
+                    <div>Mass: <span class="massvalue"></span></div>
+                    <div class="massslider">
+                        <input type="range" class="slider sliderhover" id="massslider" value="80" min="5" max="120"
+                            step="1">
+                    </div>
+                </div>
+            </div>
+            <div class="graphs">
+                <div class="selectors">
+                    <div style="height: 25px; width: 500px;"> </div>
+                    <div>
+                        <input type="button" value="Start" onclick="startOff()" id="startButton"
+                            style="margin-bottom: 0px;">
+                        <input type="button" value="Reset" onclick="reset()" style="margin-bottom: 0px;">
+                    </div>
+                    <div>
+                        <label for="showforces" style="display: inline;">
+                            <input type="checkbox" id="showforces" name="showforces" onclick="forceCheck()"> Show forces
+                        </label>
+                        <label for="noresistance" style="display: inline;">
+                            <input type="checkbox" id="noresistance" name="noresistance" onclick="resistanceCheck()"> No air resistance
+                        </label>
+                    </div>
+                </div>
+                <div class="dtgraphcontainer">
+                    <div style="margin-left: 20px; font-weight: bold;">Distance (m) - Time (s) Graph</div>
+                    <div class="dtgraph" id="dtgraph"></div>
+                </div>
+                <div class="vtgraphcontainer">
+                    <div style="margin-left: 20px; font-weight: bold;">Speed (m/s) - Time (s) Graph</div>
+                    <div class="vtgraph" id="vtgraph"></div>
+                </div>
+            </div>
+            <div class="rightfill"></div>
+        </div>
+        <div class="bottomfill"></div>
+    </div>
+</body>
+
+</html>

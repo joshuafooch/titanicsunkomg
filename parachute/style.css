@@ -1,0 +1,328 @@
+.mainwindow {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.maincontainer {
+    width: 100vw;
+    height: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.topfill,
+.bottomfill {
+    width: 100vw;
+    height: calc((100vh - 800px) / 2);
+    background-color: #ddd;
+    z-index: 10;
+}
+
+.leftfill,
+.rightfill {
+    width: calc((100vw - 400px - 500px) / 2);
+    height: 800px;
+    background-color: #ddd;
+    z-index: 10;
+}
+
+.graphic {
+    height: 800px;
+    width: 400px;
+    background-color: #caf3ff;
+    position: relative;
+}
+
+.plane {
+    top: 50px;
+    left: 50px;
+    position: absolute;
+    z-index: 2;
+}
+
+.flying {
+    animation: flyingAnim 5s linear infinite;
+}
+
+.flying2 {
+    animation: flyingAnim 3s infinite;
+}
+
+@keyframes flyingAnim {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    20% {
+        transform: translate(0px, 15px);
+    }
+
+    40% {
+        transform: translate(0px, -5px);
+    }
+
+    60% {
+        transform: translate(0px, 10px);
+    }
+
+    80% {
+        transform: translate(0px, 5px);
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+.skydiver {
+    left: 100px;
+    top: 50px;
+    width: 200px;
+    position: relative;
+    z-index: 4;
+}
+
+.parachute1 {
+    left: 25px;
+    top: -150px;
+    position: absolute;
+}
+
+.pullback {
+    animation: pullbackAnim 5s ease-in-out;
+}
+
+@keyframes pullbackAnim {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    5% {
+        transform: translate(0, -200px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.rushdown {
+    animation: rushdownAnim 5s ease-in-out;
+}
+
+@keyframes rushdownAnim {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(0, 200px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.parachute2 {
+    left: -75px;
+    top: -260px;
+    width: 350px;
+    position: absolute;
+}
+
+.man {
+    position: absolute;
+}
+
+.falling {
+    animation: fallingAnim 8s infinite;
+}
+
+@keyframes fallingAnim {
+    0% {
+        transform: rotate(-20deg);
+    }
+
+    10% {
+        transform: rotate(25deg);
+    }
+
+    20% {
+        transform: rotate(-10deg);
+    }
+
+    30% {
+        transform: rotate(20deg);
+    }
+
+    40% {
+        transform: rotate(-15deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    60% {
+        transform: rotate(-5deg);
+    }
+
+    70% {
+        transform: rotate(20deg);
+    }
+
+    80% {
+        transform: rotate(-5deg);
+    }
+
+    90% {
+        transform: rotate(10deg);
+    }
+
+    100% {
+        transform: rotate(-20deg);
+    }
+}
+
+.weight {
+    top: 60px;
+    left: 80px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.weightbody {
+    width: 15px;
+}
+
+.weighthead {
+    margin-top: -2px;
+    margin-left: -1px;
+    width: 40px;
+}
+
+.airresistance {
+    bottom: -40px;
+    left: 80px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.resistancebody {
+    width: 15px;
+}
+
+.resistancehead {
+    margin-bottom: -2px;
+    margin-left: -1px;
+    width: 40px;
+}
+
+.parachuteselector {
+    position: absolute;
+    bottom: 100px;
+    text-align: center;
+    z-index: 10;
+}
+
+.massselector {
+    width: 400px;
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.massslider {
+    width: 380px;
+    height: 25px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 380px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-bottom: 0px;
+}
+
+.sliderhover:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.graphs {
+    height: 800px;
+    width: 500px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.selectors {
+    width: 500px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dtgraphcontainer {
+    width: 500px;
+    height: 300px;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+.vtgraphcontainer {
+    width: 500px;
+    height: 300px;
+}
+
+.cloud {
+    position: absolute;
+    opacity: 0.6;
+}
