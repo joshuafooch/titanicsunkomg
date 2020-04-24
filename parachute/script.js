@@ -10,7 +10,7 @@ var cloudCount = 0;
 var cloudCounter = 0;
 var noResistance = false;
 
-var timestepFactor = 50;
+var timestepFactor = 35;
 var time = 0;
 var pos = 0;
 var vel = 0;
@@ -80,10 +80,10 @@ function smallChute() {
     if (noResistance == false) {
         if (currentParachute == 0) {
             $(".skydiver").addClass("pullback");
-            setTimeout(() => $(".skydiver").removeClass("pullback"), 6000);
+            setTimeout(() => $(".skydiver").removeClass("pullback"), 5000);
         } else if (currentParachute == 2) {
             $(".skydiver").addClass("rushdown");
-            setTimeout(() => $(".skydiver").removeClass("rushdown"), 6000);
+            setTimeout(() => $(".skydiver").removeClass("rushdown"), 5000);
         }
     }
     currentParachute = 1;
@@ -97,11 +97,11 @@ function largeChute() {
     coeffChangeInterval = setInterval(coeffChange, dragChangeTime / timestepFactor);
     $(".parachute1").hide();
     $(".parachute2").show();
-    
+
     if (noResistance == false) {
         if (currentParachute == 0 || currentParachute == 1) {
             $(".skydiver").addClass("pullback");
-            setTimeout(() => $(".skydiver").removeClass("pullback"), 6000);
+            setTimeout(() => $(".skydiver").removeClass("pullback"), 5000);
         }
     }
     currentParachute = 2;
@@ -177,6 +177,7 @@ function reset() {
 
     $(".parachute1").hide();
     $(".parachute2").hide();
+    drag = 0;
     dragcoeff = 0.08 / 0.4356;
 
     $(".plane").css("left", planePos + "px");
@@ -302,10 +303,17 @@ function generateCloud(i) {
 
 function forceCheck() {
     if (document.getElementById("showforces").checked == true) {
-        $(".weightbody").show();
-        $(".weighthead").show();
-        $(".resistancebody").show();
-        $(".resistancehead").show();
+        if (document.getElementById("noresistance").checked == false) {
+            $(".weightbody").show();
+            $(".weighthead").show();
+            $(".resistancebody").show();
+            $(".resistancehead").show();
+        } else {
+            $(".weightbody").show();
+            $(".weighthead").show();
+            $(".resistancebody").hide();
+            $(".resistancehead").hide();
+        }
     } else {
         $(".weightbody").hide();
         $(".weighthead").hide();
@@ -320,4 +328,5 @@ function resistanceCheck() {
     } else {
         noResistance = false;
     }
+    forceCheck();
 }
