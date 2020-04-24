@@ -33,6 +33,8 @@ $(".resistancebody").css("height", (mass * drag / arrowFactor) + "px");
 var weightLength;
 
 $(".skydiver").hide();
+$(".parachute1").hide();
+$(".parachute2").hide();
 $(".weightbody").hide();
 $(".weighthead").hide();
 $(".resistancebody").hide();
@@ -72,9 +74,8 @@ function smallChute() {
     let dragcoeffChange = dragcoeffMax - dragcoeff;
     dragcoeffStep = dragcoeffChange / (dragChangeTime / timestepFactor);
     coeffChangeInterval = setInterval(coeffChange, dragChangeTime / timestepFactor);
-    document.getElementById("parachute").innerHTML = "<img style='width: 150px;' src='parachute1.png'>";
-    $("#parachute").removeClass("parachute2");
-    $("#parachute").addClass("parachute1");
+    $(".parachute2").hide();
+    $(".parachute1").show();
 
     if (noResistance == false) {
         if (currentParachute == 0) {
@@ -94,9 +95,8 @@ function largeChute() {
     let dragcoeffChange = dragcoeffMax - dragcoeff;
     dragcoeffStep = dragcoeffChange / (dragChangeTime / timestepFactor);
     coeffChangeInterval = setInterval(coeffChange, dragChangeTime / timestepFactor);
-    document.getElementById("parachute").innerHTML = "<img style='width: 350px;' src='parachute2.png'>";
-    $("#parachute").removeClass("parachute1");
-    $("#parachute").addClass("parachute2");
+    $(".parachute1").hide();
+    $(".parachute2").show();
     
     if (noResistance == false) {
         if (currentParachute == 0 || currentParachute == 1) {
@@ -175,7 +175,8 @@ function reset() {
     $("#massslider").addClass("sliderhover");
     $(".massvalue").text("80 kg");
 
-    document.getElementById("parachute").innerHTML = "";
+    $(".parachute1").hide();
+    $(".parachute2").hide();
     dragcoeff = 0.08 / 0.4356;
 
     $(".plane").css("left", planePos + "px");
