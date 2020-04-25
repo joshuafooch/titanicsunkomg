@@ -1,3 +1,7 @@
+html, body {
+    overflow-x: hidden;
+}
+
 .mainwindow {
     width: 100vw;
     height: 100vh;
@@ -465,12 +469,12 @@
         width: 219.66px;
         height: 106px;
         bottom: 0px;
-        right: 0px;
+        right: 10px;
         z-index: 10;
     }
 
     .massselector {
-        width: calc(100vw - 219.66px);
+        width: calc(100vw - 219.66px - 10px);
         position: absolute;
         bottom: 20px;
         display: flex;
@@ -487,12 +491,12 @@
     }
 
     .massslider {
-        width: calc(100vw - 219.66px - 20px);
+        width: calc(100vw - 219.66px - 10px - 20px);
         height: 25px;
     }
 
     .slider {
-        width: calc(100vw - 219.66px - 20px);
+        width: calc(100vw - 219.66px - 10px - 20px);
     }
 
     .graphs {
