@@ -45,7 +45,7 @@
     top: 50px;
     left: 50px;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
 }
 
 .flying {
@@ -225,6 +225,14 @@
     width: 40px;
 }
 
+.weightValue {
+    left: -40px;
+    bottom: -20px;
+    position: absolute;
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .airresistance {
     bottom: -40px;
     left: 80px;
@@ -243,6 +251,14 @@
     margin-bottom: -2px;
     margin-left: -1px;
     width: 40px;
+}
+
+.resistanceValue {
+    left: -40px;
+    top: -20px;
+    position: absolute;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .parachuteselector {
@@ -358,17 +374,17 @@
     }
 
     .mainwindow {
-        height: 1200px;
+        height: 1300px;
     }
 
     .maincontainer {
-        height: 1200px;
+        height: 1300px;
         flex-direction: column;
     }
 
     .graphic {
         width: 100vw;
-        height: 400px;
+        height: 500px;
     }
 
     .plane {
@@ -420,6 +436,11 @@
         width: 30px;
     }
 
+    .weightValue {
+        left: -60px;
+        bottom: 0px;
+    }
+
     .airresistance {
         bottom: -30px;
         left: 0px;
@@ -433,6 +454,11 @@
         margin-bottom: -2px;
         margin-left: -1px;
         width: 30px;
+    }
+
+    .resistanceValue {
+        left: -60px;
+        top: 0px;
     }
 
     .parachuteselector {

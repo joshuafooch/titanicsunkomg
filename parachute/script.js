@@ -5,12 +5,14 @@ var graphsWidth = document.getElementById("graphs").clientWidth;
 var skydiverWidth = Number(window.getComputedStyle(document.getElementById("manimg")).width.replace("px", ""));
 
 var planePos = 0.5 * graphicWidth - 150;
+var planeTop = 50;
 var skydiverPos = 70;
 var moveoffInterval;
 var coeffChangeInterval;
 var simulation;
 var counter = 0;
 var currentParachute = 0;
+var beginningclouds = [];
 var clouds = [];
 var cloudCount = 0;
 var cloudCounter = 0;
@@ -22,12 +24,13 @@ var pos = 0;
 var vel = 0;
 var acc = 10;
 var mass = 80;
+var grav = 10;
 $(".massvalue").text("80 kg");
 $("#massslider").on("input", function () {
     $(".massvalue").text(this.value + " kg");
     mass = this.value;
+    document.getElementById("weightValue").innerHTML = (mass * grav) + " N";
 });
-var grav = 10;
 var drag = 0;
 var dragcoeff = 0.08 / 0.4356; //default drag coefficient of man
 var dragcoeffStep;
@@ -41,12 +44,28 @@ var weightLength;
 $(".skydiver").hide();
 $(".parachute1").hide();
 $(".parachute2").hide();
-$(".weightbody").hide();
-$(".weighthead").hide();
-$(".resistancebody").hide();
-$(".resistancehead").hide();
+document.getElementById("weightValue").innerHTML = (mass * grav) + " N";
+$(".weight").hide();
+$(".airresistance").hide();
 document.getElementById("smallParachuteButton").disabled = true;
 document.getElementById("largeParachuteButton").disabled = true;
+
+//Beginning clouds
+var beginningCloudInterval = setInterval(() => {
+    let checkNum = Math.random() * Math.pow(cloudCounter, 2) * 0.5;
+    if (checkNum > 600) {
+        cloudCount++;
+        generateCloud(cloudCount, clouds, 0);
+        cloudCounter = 0;
+    }
+    cloudCounter++;
+
+    for (cloud of clouds) {
+        cloud.movex();
+        cloud.updatex();
+        cloud.destroy();
+    }
+}, 1000 / timestepFactor);
 
 
 //Initialise graph
@@ -125,6 +144,7 @@ function coeffChange() {
 }
 
 function startOff() {
+    setTimeout(() => clearInterval(beginningCloudInterval), 2500);
     plotPoints();
     simulation = setInterval(play, 1000 / timestepFactor);
     moveoffInterval = setInterval(planeMoveOff, 1000 / timestepFactor);
@@ -142,11 +162,13 @@ function startOff() {
 }
 
 function planeMoveOff() {
-    if (windowWidth > 900) {
+    if (windowWidth > 900) { //For large devices
         if (planePos > -300) { //When plane is still in sight
             planePos -= 2 * 100 / timestepFactor;
+            planeTop -= 1.5 * 100 / timestepFactor;
             skydiverPos += 3 * 100 / timestepFactor;
             $(".plane").css("left", planePos + "px");
+            $(".plane").css("top", planeTop + "px");
             $(".skydiver").css("top", skydiverPos + "px");
         }
 
@@ -161,10 +183,10 @@ function planeMoveOff() {
             }
             counter++;
         }
-    } else {
+    } else { //For smaller devices
         if (planePos > -300) { //When plane is still in sight
             planePos -= 2 * 100 / timestepFactor;
-            skydiverPos += 1 * 100 / timestepFactor;
+            skydiverPos += 1.75 * 100 / timestepFactor;
             $(".plane").css("left", planePos + "px");
             $(".skydiver").css("top", skydiverPos + "px");
         }
@@ -173,7 +195,7 @@ function planeMoveOff() {
             if (counter > timestepFactor / 2) {
                 skydiverPos -= 5;
                 $(".skydiver").css("top", skydiverPos + "px");
-                if (skydiverPos <= 200) {
+                if (skydiverPos <= 300) {
                     clearInterval(moveoffInterval);
                     $(".plane").hide();
                 }
@@ -185,6 +207,7 @@ function planeMoveOff() {
 }
 
 function reset() {
+    clearInterval(beginningCloudInterval);
     clearInterval(moveoffInterval);
     clearInterval(simulation);
     document.getElementById("smallParachuteButton").disabled = true;
@@ -193,6 +216,7 @@ function reset() {
     document.getElementById("noresistance").disabled = false;
 
     planePos = 0.5 * graphicWidth - 150;
+    planeTop = 50;
     skydiverPos = 70;
     counter = 0;
     currentParachute = 0;
@@ -214,6 +238,7 @@ function reset() {
     dragcoeff = 0.08 / 0.4356;
 
     $(".plane").css("left", planePos + "px");
+    $(".plane").css("top", planeTop + "px");
     $(".skydiver").css("top", skydiverPos + "px");
 
     $(".plane").show();
@@ -240,6 +265,23 @@ function reset() {
     clouds = [];
     cloudCount = 0;
     cloudCounter = 0;
+
+    //Beginning clouds
+    beginningCloudInterval = setInterval(() => {
+        let checkNum = Math.random() * Math.pow(cloudCounter, 2) * 0.5;
+        if (checkNum > 600) {
+            cloudCount++;
+            generateCloud(cloudCount, clouds, 0);
+            cloudCounter = 0;
+        }
+        cloudCounter++;
+
+        for (cloud of clouds) {
+            cloud.movex();
+            cloud.updatex();
+            cloud.destroy();
+        }
+    }, 1000 / timestepFactor);
 }
 
 function play() {
@@ -279,22 +321,23 @@ function play() {
         ]
     }, [0]);
 
-    //update arrow lengths
+    //update arrow lengths and value
     $(".resistancebody").css("height", (mass * drag / arrowFactor) + "px");
+    document.getElementById("resistanceValue").innerHTML = Math.round((drag * mass)) + " N";
 
     //generate clouds
     let checkNum = Math.random() * cloudCounter * vel;
     if (checkNum > 600) {
         cloudCount++;
-        generateCloud(cloudCount);
+        generateCloud(cloudCount, clouds, 1);
         cloudCounter = 0;
     }
     cloudCounter++;
 
     //update clouds
     for (cloud of clouds) {
-        cloud.move();
-        cloud.update();
+        cloud.movey();
+        cloud.updatey();
         cloud.destroy();
     }
 }
@@ -321,9 +364,8 @@ function plotPoints() {
     });
 }
 
-function generateCloud(i) {
+function generateCloud(i, array, type) { //type 0 for beginning horizontal moving clouds, type 1 for clouds during falling
     let newcloud = document.createElement("div");
-    let leftpos = Math.floor(Math.random() * (graphicWidth + 200)) - 200;
     let randomNum1 = Math.floor(Math.random() * 7) + 1;
     let randomNum2 = Math.floor(Math.random() * 5) + 1;
     newcloud.className = "cloud";
@@ -331,27 +373,21 @@ function generateCloud(i) {
     document.getElementById("graphic").appendChild(newcloud);
     document.getElementById("cloud" + i).innerHTML = "<img src='cloud" + randomNum1 + ".png'>";
     $("#cloud" + i).css("z-index", randomNum2);
-    clouds.push(new Cloud(i, leftpos));
+    array.push(new Cloud(i, type));
 }
 
 function forceCheck() {
     if (document.getElementById("showforces").checked == true) {
         if (document.getElementById("noresistance").checked == false) {
-            $(".weightbody").show();
-            $(".weighthead").show();
-            $(".resistancebody").show();
-            $(".resistancehead").show();
+            $(".weight").show();
+            $(".airresistance").show();
         } else {
-            $(".weightbody").show();
-            $(".weighthead").show();
-            $(".resistancebody").hide();
-            $(".resistancehead").hide();
+            $(".weight").show();
+            $(".airresistance").hide();
         }
     } else {
-        $(".weightbody").hide();
-        $(".weighthead").hide();
-        $(".resistancebody").hide();
-        $(".resistancehead").hide();
+        $(".weight").hide();
+        $(".airresistance").hide();
     }
 }
 
