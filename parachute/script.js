@@ -220,7 +220,6 @@ function reset() {
     skydiverPos = 70;
     counter = 0;
     currentParachute = 0;
-    noResistance = false;
 
     time = 0;
     pos = 0;
