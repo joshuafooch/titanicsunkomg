@@ -84,7 +84,7 @@
 
 .skydiver {
     left: 100px;
-    top: 50px;
+    top: 70px;
     width: 200px;
     position: relative;
     z-index: 4;
@@ -94,6 +94,10 @@
     left: 25px;
     top: -150px;
     position: absolute;
+}
+
+.parachute1img {
+    width: 150px;
 }
 
 .pullback {
@@ -139,8 +143,16 @@
     position: absolute;
 }
 
+.parachute2img {
+    width: 350px;
+}
+
 .man {
     position: absolute;
+}
+
+.manimg {
+    width: 200px;
 }
 
 .falling {
@@ -234,9 +246,13 @@
 }
 
 .parachuteselector {
+    width: 400px;
     position: absolute;
     bottom: 100px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     z-index: 10;
 }
 
@@ -310,6 +326,11 @@
     justify-content: center;
 }
 
+.blankspace {
+    height: 25px;
+    width: 500px;
+}
+
 .dtgraphcontainer {
     width: 500px;
     height: 300px;
@@ -325,4 +346,138 @@
 .cloud {
     position: absolute;
     opacity: 0.6;
+}
+
+@media screen and (max-width: 900px) {
+
+    .topfill,
+    .bottomfill,
+    .leftfill,
+    .rightfill {
+        display: none;
+    }
+
+    .mainwindow {
+        height: 1200px;
+    }
+
+    .maincontainer {
+        height: 1200px;
+        flex-direction: column;
+    }
+
+    .graphic {
+        width: 100vw;
+        height: 400px;
+    }
+
+    .plane {
+        left: calc(50vw - 150px);
+    }
+
+    .skydiver {
+        left: calc(50vw - 50px);
+    }
+
+    .parachute1 {
+        left: 13px;
+        top: -90px;
+        width: 75px;
+        position: absolute;
+    }
+
+    .parachute1img {
+        width: 75px;
+    }
+
+    .parachute2 {
+        left: -40px;
+        top: -130px;
+        width: 175px;
+        position: absolute;
+    }
+
+    .parachute2img {
+        width: 175px;
+    }
+
+    .manimg {
+        width: 100px;
+    }
+
+    .weight {
+        top: 40px;
+        left: 0px;
+    }
+
+    .weightbody {
+        width: 10px;
+    }
+
+    .weighthead {
+        margin-top: -2px;
+        margin-left: -1px;
+        width: 30px;
+    }
+
+    .airresistance {
+        bottom: -30px;
+        left: 0px;
+    }
+
+    .resistancebody {
+        width: 10px;
+    }
+
+    .resistancehead {
+        margin-bottom: -2px;
+        margin-left: -1px;
+        width: 30px;
+    }
+
+    .parachuteselector {
+        width: 219.66px;
+        height: 106px;
+        bottom: 0px;
+        right: 0px;
+        z-index: 10;
+    }
+
+    .massselector {
+        width: calc(100vw - 219.66px);
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+        z-index: 10;
+    }
+
+    .button-primary {
+        margin-bottom: 2px;
+    }
+
+    .massslider {
+        width: calc(100vw - 219.66px - 20px);
+        height: 25px;
+    }
+
+    .slider {
+        width: calc(100vw - 219.66px - 20px);
+    }
+
+    .graphs {
+        width: 100vw;
+        height: 800px;
+    }
+
+    .selectors,
+    .blankspace,
+    .dtgraphcontainer,
+    .vtgraphcontainer {
+        width: 100vw;
+    }
 }

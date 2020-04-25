@@ -1,5 +1,11 @@
-var planePos = 50;
-var skydiverPos = 50;
+//window information
+var windowWidth = window.innerWidth;
+var graphicWidth = document.getElementById("graphic").clientWidth;
+var graphsWidth = document.getElementById("graphs").clientWidth;
+var skydiverWidth = Number(window.getComputedStyle(document.getElementById("manimg")).width.replace("px", ""));
+
+var planePos = 0.5 * graphicWidth - 150;
+var skydiverPos = 70;
 var moveoffInterval;
 var coeffChangeInterval;
 var simulation;
@@ -49,7 +55,7 @@ var dtgraph = document.getElementById('dtgraph');
 var vtgraph = document.getElementById('vtgraph');
 var layout = {
     autosize: false,
-    width: 500,
+    width: graphsWidth,
     height: 300,
     margin: {
         l: 50,
@@ -132,23 +138,44 @@ function startOff() {
 }
 
 function planeMoveOff() {
-    if (planePos > -300) { //When plane is still in sight
-        planePos -= 2 * 100 / timestepFactor;
-        skydiverPos += 3 * 100 / timestepFactor;
-        $(".plane").css("left", planePos + "px");
-        $(".skydiver").css("top", skydiverPos + "px");
-    }
-
-    if (planePos <= -300) { //When plane is out of sight
-        if (counter > timestepFactor / 2) {
-            skydiverPos -= 5;
+    if (windowWidth > 900) {
+        if (planePos > -300) { //When plane is still in sight
+            planePos -= 2 * 100 / timestepFactor;
+            skydiverPos += 3 * 100 / timestepFactor;
+            $(".plane").css("left", planePos + "px");
             $(".skydiver").css("top", skydiverPos + "px");
-            if (skydiverPos <= 400) {
-                clearInterval(moveoffInterval);
-                $(".plane").hide();
-            }
         }
-        counter++;
+
+        if (planePos <= -300) { //When plane is out of sight
+            if (counter > timestepFactor / 2) {
+                skydiverPos -= 5;
+                $(".skydiver").css("top", skydiverPos + "px");
+                if (skydiverPos <= 400) {
+                    clearInterval(moveoffInterval);
+                    $(".plane").hide();
+                }
+            }
+            counter++;
+        }
+    } else {
+        if (planePos > -300) { //When plane is still in sight
+            planePos -= 2 * 100 / timestepFactor;
+            skydiverPos += 1 * 100 / timestepFactor;
+            $(".plane").css("left", planePos + "px");
+            $(".skydiver").css("top", skydiverPos + "px");
+        }
+
+        if (planePos <= -300) { //When plane is out of sight
+            if (counter > timestepFactor / 2) {
+                skydiverPos -= 5;
+                $(".skydiver").css("top", skydiverPos + "px");
+                if (skydiverPos <= 200) {
+                    clearInterval(moveoffInterval);
+                    $(".plane").hide();
+                }
+            }
+            counter++;
+        }
     }
 
 }
@@ -159,8 +186,8 @@ function reset() {
     document.getElementById("startButton").disabled = false;
     document.getElementById("noresistance").disabled = false;
 
-    planePos = 50;
-    skydiverPos = 50;
+    planePos = 0.5 * graphicWidth - 150;
+    skydiverPos = 70;
     counter = 0;
     currentParachute = 0;
     noResistance = false;
@@ -290,7 +317,7 @@ function plotPoints() {
 
 function generateCloud(i) {
     let newcloud = document.createElement("div");
-    let leftpos = Math.floor(Math.random() * 600) - 200;
+    let leftpos = Math.floor(Math.random() * (graphicWidth + 200)) - 200;
     let randomNum1 = Math.floor(Math.random() * 7) + 1;
     let randomNum2 = Math.floor(Math.random() * 5) + 1;
     newcloud.className = "cloud";
