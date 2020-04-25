@@ -45,6 +45,8 @@ $(".weightbody").hide();
 $(".weighthead").hide();
 $(".resistancebody").hide();
 $(".resistancehead").hide();
+document.getElementById("smallParachuteButton").disabled = true;
+document.getElementById("largeParachuteButton").disabled = true;
 
 
 //Initialise graph
@@ -127,6 +129,8 @@ function startOff() {
     simulation = setInterval(play, 1000 / timestepFactor);
     moveoffInterval = setInterval(planeMoveOff, 1000 / timestepFactor);
     $(".skydiver").show();
+    document.getElementById("smallParachuteButton").disabled = false;
+    document.getElementById("largeParachuteButton").disabled = false;
     document.getElementById("massslider").disabled = true;
     $("#massslider").removeClass("sliderhover");
     document.getElementById("startButton").disabled = true;
@@ -183,6 +187,8 @@ function planeMoveOff() {
 function reset() {
     clearInterval(moveoffInterval);
     clearInterval(simulation);
+    document.getElementById("smallParachuteButton").disabled = true;
+    document.getElementById("largeParachuteButton").disabled = true;
     document.getElementById("startButton").disabled = false;
     document.getElementById("noresistance").disabled = false;
 
