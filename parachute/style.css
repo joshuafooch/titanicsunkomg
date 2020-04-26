@@ -333,17 +333,21 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     z-index: 5;
+    position: relative;
 }
 
 .selectors {
     width: 500px;
-    height: 200px;
+    height: 150px;
+    top: 325px;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s linear;
 }
 
 .blankspace {
@@ -356,6 +360,20 @@ html, body {
     height: 300px;
     margin-top: 0px;
     margin-bottom: 50px;
+    z-index: 10;
+    position: relative;
+}
+
+.dtgraphcontainer::after {
+    top: 0px;
+    left: 0px;
+    width: 500px;
+    height: 300px;
+    margin-top: 0px;
+    margin-bottom: 50px;
+    position: absolute;
+    background-color: black;
+    z-index: 9;
 }
 
 .vtgraphcontainer {
@@ -378,11 +396,11 @@ html, body {
     }
 
     .mainwindow {
-        height: 1300px;
+        height: 600px;
     }
 
     .maincontainer {
-        height: 1300px;
+        height: 600px;
         flex-direction: column;
     }
 
@@ -501,7 +519,8 @@ html, body {
 
     .graphs {
         width: 100vw;
-        height: 800px;
+        height: 100px;
+        justify-content: flex-start;
     }
 
     .selectors,
@@ -509,5 +528,15 @@ html, body {
     .dtgraphcontainer,
     .vtgraphcontainer {
         width: 100vw;
+    }
+
+    .blankspace {
+        display: none;
+    }
+
+    .selectors {
+        top: 0px;
+        height: 100px;
+        transition: none;
     }
 }

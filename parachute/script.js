@@ -45,8 +45,9 @@ $(".skydiver").hide();
 $(".parachute1").hide();
 $(".parachute2").hide();
 document.getElementById("weightValue").innerHTML = (mass * grav) + " N";
-$(".weight").hide();
-$(".airresistance").hide();
+forceCheck();
+graphCheck();
+resistanceCheck();
 document.getElementById("smallParachuteButton").disabled = true;
 document.getElementById("largeParachuteButton").disabled = true;
 
@@ -86,14 +87,6 @@ var layout = {
         pad: 0
     }
 };
-Plotly.newPlot(dtgraph, [{
-    x: tdata,
-    y: dtydata
-}], layout);
-Plotly.newPlot(vtgraph, [{
-    x: tdata,
-    y: vtydata
-}], layout);
 
 function smallChute() {
     clearInterval(coeffChangeInterval);
@@ -145,7 +138,11 @@ function coeffChange() {
 
 function startOff() {
     setTimeout(() => clearInterval(beginningCloudInterval), 2500);
-    plotPoints();
+
+    tdata.push(time);
+    dtydata.push(pos);
+    vtydata.push(vel);
+
     simulation = setInterval(play, 1000 / timestepFactor);
     moveoffInterval = setInterval(planeMoveOff, 1000 / timestepFactor);
     $(".skydiver").show();
@@ -186,8 +183,10 @@ function planeMoveOff() {
     } else { //For smaller devices
         if (planePos > -300) { //When plane is still in sight
             planePos -= 2 * 100 / timestepFactor;
+            planeTop -= 1.5 * 100 / timestepFactor;
             skydiverPos += 1.75 * 100 / timestepFactor;
             $(".plane").css("left", planePos + "px");
+            $(".plane").css("top", planeTop + "px");
             $(".skydiver").css("top", skydiverPos + "px");
         }
 
@@ -302,23 +301,28 @@ function play() {
     time += 1. / timestepFactor;
 
     //plot points
-    Plotly.extendTraces(dtgraph, {
-        x: [
-            [time]
-        ],
-        y: [
-            [pos]
-        ]
-    }, [0]);
+    tdata.push(time);
+    dtydata.push(pos);
+    vtydata.push(vel);
+    if (document.getElementById("showgraphs").checked == true) {
+        Plotly.extendTraces(dtgraph, {
+            x: [
+                [time]
+            ],
+            y: [
+                [pos]
+            ]
+        }, [0]);
 
-    Plotly.extendTraces(vtgraph, {
-        x: [
-            [time]
-        ],
-        y: [
-            [vel]
-        ]
-    }, [0]);
+        Plotly.extendTraces(vtgraph, {
+            x: [
+                [time]
+            ],
+            y: [
+                [vel]
+            ]
+        }, [0]);
+    }
 
     //update arrow lengths and value
     $(".resistancebody").css("height", (mass * drag / arrowFactor) + "px");
@@ -339,28 +343,6 @@ function play() {
         cloud.updatey();
         cloud.destroy();
     }
-}
-
-function plotPoints() {
-    tdata.push(time);
-    dtydata.push(pos);
-    vtydata.push(vel);
-    Plotly.newPlot(dtgraph, [{
-        x: tdata,
-        y: dtydata
-    }], {
-        margin: {
-            t: 0
-        }
-    });
-    Plotly.newPlot(vtgraph, [{
-        x: tdata,
-        y: vtydata
-    }], {
-        margin: {
-            t: 0
-        }
-    });
 }
 
 function generateCloud(i, array, type) { //type 0 for beginning horizontal moving clouds, type 1 for clouds during falling
@@ -387,6 +369,38 @@ function forceCheck() {
     } else {
         $(".weight").hide();
         $(".airresistance").hide();
+    }
+}
+
+function graphCheck() {
+    if (document.getElementById("showgraphs").checked == true) {
+        if (windowWidth <= 900) {
+            $("html").css("overflow-y", "auto");
+            $("body").css("overflow-y", "auto");
+            $(".mainwindow").css("height", "1250px");
+            $(".maincontainer").css("height", "1250px");
+            $(".graphs").css("height", "750px");
+        } else $(".selectors").css("transform", "translateY(-325px)");
+        $(".dtgraphcontainer").show();
+        $(".vtgraphcontainer").show();
+        Plotly.newPlot(dtgraph, [{
+            x: tdata,
+            y: dtydata
+        }], layout);
+        Plotly.newPlot(vtgraph, [{
+            x: tdata,
+            y: vtydata
+        }], layout);
+    } else {
+        if (windowWidth <= 900) {
+            $("html").css("overflow-y", "hidden");
+            $("body").css("overflow-y", "hidden");
+            $(".mainwindow").css("height", "600px");
+            $(".maincontainer").css("height", "600px");
+            $(".graphs").css("height", "100px");
+        } else $(".selectors").css("transform", "translateY(0px)");
+        $(".dtgraphcontainer").hide();
+        $(".vtgraphcontainer").hide();
     }
 }
 
