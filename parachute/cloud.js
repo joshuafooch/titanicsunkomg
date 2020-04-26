@@ -22,8 +22,9 @@ class Cloud {
 
     destroy() {
         if (this.pos <= -200 || this.left >= graphicWidth) {
-            $("#cloud" + this.i).hide();
-        }
+            $("#cloud" + this.i).remove();
+            return true;
+        } else return false;
     }
 
     updatex() {
