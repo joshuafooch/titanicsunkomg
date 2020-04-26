@@ -56,17 +56,21 @@ document.getElementById("largeParachuteButton").disabled = true;
 var beginningCloudInterval = setInterval(() => {
     let checkNum = Math.random() * Math.pow(cloudCounter, 2) * 0.5;
     if (checkNum > 600) {
-        cloudCount++;
         generateCloud(cloudCount, clouds, 0);
+        cloudCount++;
         cloudCounter = 0;
     }
     cloudCounter++;
 
+    let index;
     for (cloud of clouds) {
         cloud.movex();
         cloud.updatex();
-        cloud.destroy();
+        if (cloud.destroy()) {
+            index = clouds.indexOf(cloud);
+        }
     }
+    if (index != null) clouds.splice(index, 1);
 }, 1000 / timestepFactor);
 
 
@@ -257,9 +261,8 @@ function reset() {
     }], layout);
 
     //Remove clouds
-    for (let i = 1; i <= cloudCount; i++) {
-        let element = document.getElementById("cloud" + i);
-        element.parentNode.removeChild(element);
+    for (cloud of clouds) {
+        $("#cloud" + cloud.i).remove();
     }
     clouds = [];
     cloudCount = 0;
@@ -269,17 +272,21 @@ function reset() {
     beginningCloudInterval = setInterval(() => {
         let checkNum = Math.random() * Math.pow(cloudCounter, 2) * 0.5;
         if (checkNum > 600) {
-            cloudCount++;
             generateCloud(cloudCount, clouds, 0);
+            cloudCount++;
             cloudCounter = 0;
         }
         cloudCounter++;
 
+        let index;
         for (cloud of clouds) {
             cloud.movex();
             cloud.updatex();
-            cloud.destroy();
+            if (cloud.destroy()) {
+                index = clouds.indexOf(cloud);
+            }
         }
+        if (index != null) clouds.splice(index, 1);
     }, 1000 / timestepFactor);
 }
 
@@ -332,18 +339,22 @@ function play() {
     //generate clouds
     let checkNum = Math.random() * cloudCounter * vel;
     if (checkNum > 600) {
-        cloudCount++;
         generateCloud(cloudCount, clouds, 1);
+        cloudCount++;
         cloudCounter = 0;
     }
     cloudCounter++;
 
     //update clouds
+    let index;
     for (cloud of clouds) {
         cloud.movey();
         cloud.updatey();
-        cloud.destroy();
+        if (cloud.destroy()) {
+            index = clouds.indexOf(cloud);
+        }
     }
+    if (index != null) clouds.splice(index, 1);
 }
 
 function generateCloud(i, array, type) { //type 0 for beginning horizontal moving clouds, type 1 for clouds during falling
@@ -355,7 +366,7 @@ function generateCloud(i, array, type) { //type 0 for beginning horizontal movin
     document.getElementById("graphic").appendChild(newcloud);
     document.getElementById("cloud" + i).innerHTML = "<img src='cloud" + randomNum1 + ".png'>";
     $("#cloud" + i).css("z-index", randomNum2);
-    array.push(new Cloud(i, type));
+    array.unshift(new Cloud(i, type));
 }
 
 function forceCheck() {
