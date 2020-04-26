@@ -396,11 +396,11 @@ html, body {
     }
 
     .mainwindow {
-        height: 600px;
+        height: 100vh;
     }
 
     .maincontainer {
-        height: 600px;
+        height: 100vh;
         flex-direction: column;
     }
 
@@ -519,7 +519,7 @@ html, body {
 
     .graphs {
         width: 100vw;
-        height: 100px;
+        height: calc(100vh - 500px);
         justify-content: flex-start;
     }
 
@@ -535,8 +535,27 @@ html, body {
     }
 
     .selectors {
-        top: 0px;
-        height: 100px;
+        top: 15px;
+        height: calc(100vh - 500px - 15px);
+        justify-content: flex-start;
         transition: none;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .mainwindow {
+        height: 1250px;
+    }
+
+    .maincontainer {
+        height: 1250px;
+    }
+
+    .graphs {
+        height: 750px;
+    }
+
+    .selectors {
+        height: 735px;
     }
 }

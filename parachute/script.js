@@ -1,5 +1,6 @@
 //window information
 var windowWidth = window.innerWidth;
+var windowHeight = window.innerHeight;
 var graphicWidth = document.getElementById("graphic").clientWidth;
 var graphsWidth = document.getElementById("graphs").clientWidth;
 var skydiverWidth = Number(window.getComputedStyle(document.getElementById("manimg")).width.replace("px", ""));
@@ -374,13 +375,13 @@ function forceCheck() {
 
 function graphCheck() {
     if (document.getElementById("showgraphs").checked == true) {
-        if (windowWidth <= 900) {
+        if (windowWidth > 380 && windowWidth <= 900) {
             $("html").css("overflow-y", "auto");
             $("body").css("overflow-y", "auto");
             $(".mainwindow").css("height", "1250px");
             $(".maincontainer").css("height", "1250px");
             $(".graphs").css("height", "750px");
-        } else $(".selectors").css("transform", "translateY(-325px)");
+        } else if (windowWidth > 900) $(".selectors").css("transform", "translateY(-325px)");
         $(".dtgraphcontainer").show();
         $(".vtgraphcontainer").show();
         Plotly.newPlot(dtgraph, [{
@@ -392,13 +393,13 @@ function graphCheck() {
             y: vtydata
         }], layout);
     } else {
-        if (windowWidth <= 900) {
+        if (windowWidth > 380 && windowWidth <= 900) {
             $("html").css("overflow-y", "hidden");
             $("body").css("overflow-y", "hidden");
-            $(".mainwindow").css("height", "600px");
-            $(".maincontainer").css("height", "600px");
-            $(".graphs").css("height", "100px");
-        } else $(".selectors").css("transform", "translateY(0px)");
+            $(".mainwindow").css("height", windowHeight + "px");
+            $(".maincontainer").css("height", windowHeight + "px");
+            $(".graphs").css("height", (windowHeight - 500) + "px");
+        } else if (windowWidth > 900) $(".selectors").css("transform", "translateY(0px)");
         $(".dtgraphcontainer").hide();
         $(".vtgraphcontainer").hide();
     }
