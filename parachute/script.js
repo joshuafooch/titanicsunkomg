@@ -229,11 +229,8 @@ function reset() {
     pos = 0;
     vel = 0;
     acc = 10;
-    mass = 80;
     document.getElementById("massslider").disabled = false;
-    document.getElementById("massslider").value = mass;
     $("#massslider").addClass("sliderhover");
-    $(".massvalue").text("80 kg");
 
     $(".parachute1").hide();
     $(".parachute2").hide();
