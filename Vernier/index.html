@@ -56,22 +56,23 @@
             <div id="sketch-holder"></div>
         </div>
         <div class="selectors">
-            <div style="margin-right: 40px;">Unit of measurement:
+            <div style="font-weight: bold;">Unit of measurement: </div>
+            <div style="margin-right: 40px;">
                 <input type="radio" name="unit" id="cmradio" onclick="selectcm()" checked>
                 <label for="cmradio">cm</label>
                 <input type="radio" name="unit" id="mmradio" onclick="selectmm()">
                 <label for="mmradio">mm</label>
             </div>
-            <div>
+            <div style="font-weight: bold;">
                 Zero error:
                 <input type="text" id="zeroerror" style="width: 50px; margin-right: 40px;" value="0.00">
             </div>
-            <div>
+            <div style="font-weight: bold;">
                 Object length:
                 <input type="text" id="measurement" style="width: 50px;" value="0.00">
             </div>
             <div>
-                <input type="button" value="Create Image!" style="position: absolute; right: 0px;" onclick="update()">
+                <input style="margin: 0px; padding: 0px; height: 21px; position: absolute; right: 0px; font-family: Raleway;" type="button" value="Create Image!" onclick="update()">
             </div>
         </div>
         <div style="width: 800px; position: relative; display: flex;">
