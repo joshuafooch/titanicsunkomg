@@ -13,6 +13,7 @@ let scaleXoff = 0;
 let defaultX = 100;
 let canvasElementX;
 let canvasElementY;
+let rightLimit = -1423;
 
 function preload() {
     vernierBody = loadImage("vernierbody.png");
@@ -32,7 +33,7 @@ function setup() {
 
 function draw() {
     if (ImgX >= defaultX) ImgX = defaultX;
-    if (ImgX <= -1389) ImgX = -1389;
+    if (ImgX <= rightLimit) ImgX = rightLimit;
     background(255);
     image(vernierBody, ImgX, ImgY);
     if (selectcmBool) {
@@ -51,10 +52,9 @@ function mousePressed() {
 
 function mouseDragged() {
     if (mouseX > canvasElementX && mouseX < canvasElementX + width && mouseY > canvasElementY && mouseY < canvasElementY + height) {
-        if (ImgX <= defaultX && ImgX >= -1389) {
+        if (ImgX <= defaultX && ImgX >= rightLimit) {
             let change = [mouseX - oldX, mouseY - oldY];
             ImgX += change[0];
-            // ImgY += change[1];
             oldX = mouseX;
             oldY = mouseY;
         }
@@ -101,13 +101,15 @@ function checkCrop() {
         resizeCanvas(600, 350);
         ImgY = -60;
         defaultX = 0;
-        ImgX = defaultX - armXoff;
+        ImgX -= 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
+        rightLimit = -1523;
     } else {
         resizeCanvas(800, 600);
         ImgY = 0;
         defaultX = 100;
-        ImgX = defaultX - armXoff;
+        ImgX += 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
+        rightLimit = -1423;
     }
 }
