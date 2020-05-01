@@ -76,9 +76,7 @@ function selectmm() {
     let zerotemp = document.getElementById("zeroerror").value;
     let measuretemp = document.getElementById("measurement").value;
     if (zerotemp == 0) document.getElementById("zeroerror").value = "0.0";
-    else document.getElementById("zeroerror").value *= 10;
     if (measuretemp == 0) document.getElementById("measurement").value = "0.0";
-    else document.getElementById("measurement").value *= 10;
 }
 
 function update() {
@@ -90,13 +88,12 @@ function update() {
         if (zeroerror > 0) scaleXoff *= -1;
         armXoff = Math.floor(measurement * 100);
         if (armXoff > 1522) armXoff = 1522;
-        ImgX = defaultX - armXoff;
     } else if (selectmmBool) {
         scaleXoff = -1 * Math.floor(zeroerror * 10);
         armXoff = Math.floor(measurement * 10);
         if (armXoff > 1522) armXoff = 1522;
-        ImgX = defaultX - armXoff;
     }
+    ImgX = defaultX - armXoff;
 }
 
 function checkCrop() {
@@ -104,13 +101,13 @@ function checkCrop() {
         resizeCanvas(600, 350);
         ImgY = -60;
         defaultX = 0;
-        update();
+        ImgX = defaultX - armXoff;
         document.getElementById("sketch-holder").classList.toggle("cropped");
     } else {
         resizeCanvas(800, 600);
         ImgY = 0;
         defaultX = 100;
-        update();
+        ImgX = defaultX - armXoff;
         document.getElementById("sketch-holder").classList.toggle("cropped");
     }
 }
