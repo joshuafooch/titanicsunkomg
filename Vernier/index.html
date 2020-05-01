@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #F0F0F0;
+        }
+
+        .sketchcontainer {
+            margin-bottom: 20px;
+            width: 800px;
+            height: 600px;
+            position: relative;
+        }
+
+        .cropped {
+            top: 60px;
+            left: 100px;
+            position: absolute;
+        }
+
+        .selectors {
+            margin-bottom: 5px;
+            width: 800px;
+            display: flex;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sketchcontainer">
+            <div id="sketch-holder"></div>
+        </div>
+        <div class="selectors">
+            <div style="margin-right: 40px;">Unit of measurement:
+                <input type="radio" name="unit" id="cmradio" onclick="selectcm()" checked>
+                <label for="cmradio">cm</label>
+                <input type="radio" name="unit" id="mmradio" onclick="selectmm()">
+                <label for="mmradio">mm</label>
+            </div>
+            <div>
+                Zero error:
+                <input type="text" id="zeroerror" style="width: 50px; margin-right: 40px;" value="0.00">
+            </div>
+            <div>
+                Object length:
+                <input type="text" id="measurement" style="width: 50px;" value="0.00">
+            </div>
+            <div>
+                <input type="button" value="Create Image!" style="position: absolute; right: 0px;" onclick="update()">
+            </div>
+        </div>
+        <div style="width: 800px; position: relative; display: flex;">
+            <div>(You can drag the image left and right to scroll through the caliper.)</div>
+            <div style="right: 0px; position: absolute;">
+                <input type="checkbox" id="cropCheckbox" name="cropCheckbox" onclick="checkCrop()">
+                <label for="cropCheckbox">Cropped image</label>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
