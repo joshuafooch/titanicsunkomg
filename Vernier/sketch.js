@@ -14,6 +14,8 @@ let defaultX = 100;
 let canvasElementX;
 let canvasElementY;
 let rightLimit = -1423;
+let measurementslider;
+let maxVern = 1522;
 
 function preload() {
     vernierBody = loadImage("vernierbody.png");
@@ -29,9 +31,21 @@ function setup() {
     canvas.parent('sketch-holder');
     canvasElementX = document.getElementById("sketch-holder").offsetLeft;
     canvasElementY = document.getElementById("sketch-holder").offsetTop;
+    measurementslider = document.getElementById("measurementslider");
 }
 
 function draw() {
+    measurementslider.oninput = function () {
+        document.getElementById("measurement").value = this.value;
+        update();
+    }
+    document.getElementById("zeroerror").oninput = function () {
+        let factor;
+        if (selectcmBool) factor = 100;
+        else factor = 10;
+        maxVern = 1522 - this.value * factor;
+        measurementslider.max = maxVern / factor;
+    }
     if (ImgX >= defaultX) ImgX = defaultX;
     if (ImgX <= rightLimit) ImgX = rightLimit;
     background(255);
@@ -62,6 +76,7 @@ function mouseDragged() {
 }
 
 function selectcm() {
+    measurementslider.max = maxVern / 100;
     selectmmBool = false;
     selectcmBool = true;
     let zerotemp = document.getElementById("zeroerror").value;
@@ -71,6 +86,7 @@ function selectcm() {
 }
 
 function selectmm() {
+    measurementslider.max = maxVern / 10;
     selectcmBool = false;
     selectmmBool = true;
     let zerotemp = document.getElementById("zeroerror").value;
@@ -82,16 +98,24 @@ function selectmm() {
 function update() {
     let zeroerror = document.getElementById("zeroerror").value;
     let measurement = document.getElementById("measurement").value;
+    measurementslider.value = measurement;
+    let factor;
+    if (selectcmBool) factor = 100;
+    else factor = 10;
+    if (measurement > maxVern / factor) document.getElementById("measurement").value = maxVern / factor;
+    else document.getElementById("measurement").value = measurement;
+    if (document.getElementById("cropCheckbox").checked) rightLimit = -1523 + zeroerror * factor;
+    else rightLimit = -1423 + zeroerror * factor;
     if (measurement < 0) measurement = 0;
     if (selectcmBool) {
         scaleXoff = Math.floor(Math.abs(zeroerror) * 100);
         if (zeroerror > 0) scaleXoff *= -1;
         armXoff = Math.floor(measurement * 100);
-        if (armXoff > 1522) armXoff = 1522;
+        if (armXoff > maxVern) armXoff = maxVern;
     } else if (selectmmBool) {
         scaleXoff = -1 * Math.floor(zeroerror * 10);
         armXoff = Math.floor(measurement * 10);
-        if (armXoff > 1522) armXoff = 1522;
+        if (armXoff > maxVern) armXoff = maxVern;
     }
     ImgX = defaultX - armXoff;
 }
@@ -103,13 +127,19 @@ function checkCrop() {
         defaultX = 0;
         ImgX -= 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
-        rightLimit = -1523;
+        let factor;
+        if (selectcmBool) factor = 100;
+        else factor = 10;
+        rightLimit = -1523 + document.getElementById("zeroerror").value * factor;
     } else {
         resizeCanvas(800, 600);
         ImgY = 0;
         defaultX = 100;
         ImgX += 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
-        rightLimit = -1423;
+        let factor;
+        if (selectcmBool) factor = 100;
+        else factor = 10;
+        rightLimit = -1423 + document.getElementById("zeroerror").value * factor;
     }
 }
