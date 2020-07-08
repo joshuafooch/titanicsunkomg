@@ -103,18 +103,18 @@ function update() {
     if (selectcmBool) factor = 100;
     else factor = 10;
     if (measurement > maxVern / factor) document.getElementById("measurement").value = maxVern / factor;
-    else document.getElementById("measurement").value = measurement;
+    else document.getElementById("measurement").value = Math.round(measurement * factor) / factor;
     if (document.getElementById("cropCheckbox").checked) rightLimit = -1523 + zeroerror * factor;
     else rightLimit = -1423 + zeroerror * factor;
     if (measurement < 0) measurement = 0;
     if (selectcmBool) {
-        scaleXoff = Math.floor(Math.abs(zeroerror) * 100);
+        scaleXoff = Math.round(Math.abs(zeroerror) * 100);
         if (zeroerror > 0) scaleXoff *= -1;
-        armXoff = Math.floor(measurement * 100);
+        armXoff = Math.round(measurement * 100);
         if (armXoff > maxVern) armXoff = maxVern;
     } else if (selectmmBool) {
-        scaleXoff = -1 * Math.floor(zeroerror * 10);
-        armXoff = Math.floor(measurement * 10);
+        scaleXoff = -1 * Math.round(zeroerror * 10);
+        armXoff = Math.round(measurement * 10);
         if (armXoff > maxVern) armXoff = maxVern;
     }
     ImgX = defaultX - armXoff;
