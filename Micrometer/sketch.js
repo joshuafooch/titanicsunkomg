@@ -116,7 +116,7 @@ function update() {
     let measurement = Number(document.getElementById("measurement").value);
     measurementslider.value = measurement;
     if (measurement > maxCal) document.getElementById("measurement").value = maxCal;
-    else document.getElementById("measurement").value = measurement;
+    else document.getElementById("measurement").value = Math.round(measurement * 100) / 100;
     if (measurement < 0) measurement = 0;
     spindleXoff = Math.floor(measurement * 10) * 0.95;
     armXoff = Math.floor((measurement + zeroerror) * 10);
