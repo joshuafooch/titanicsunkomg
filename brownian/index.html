@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <title>Brownian Motion and Diffusion</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="Ball.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: Raleway;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        h2 {
+            margin-bottom: 0px;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title-row {
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .settings {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            width: 300px;
+        }
+
+        .sim-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sim-type-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sim-options {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .other-settings {
+            margin-top: 50px;
+        }
+
+        .other-settings-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .airvalue {
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 300px;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #5081af;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #5081af;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title-row">
+            <h1>Brownian Motion & Diffusion</h1>
+        </div>
+        <div class="main-row">
+            <div id="sketch-holder"></div>
+            <div class="settings">
+                <div class="sim-type">
+                    <div class="sim-type-title">
+                        <h2>Simulation type</h2>
+                        <div style="font-style: italic; margin-bottom: 10px;">(N is the number of dust particles)</div>
+                    </div>
+                    <div class="sim-options">
+                        <input type="radio" id="brownian" name="selectType" value="brownian" onclick="brownian()"
+                            checked>
+                        <label for="brownian">Brownian motion (N=1)</label><br>
+                        <input style="margin-left: 30px;" type="radio" id="diffusion" name="selectType"
+                            value="diffusion" onclick="diffusion()">
+                        <label for="diffusion">Diffusion (N=10)</label><br>
+                    </div>
+                </div>
+                <div class="other-settings">
+                    <div class="other-settings-title">
+                        <h2>Other settings</h2>
+                        <div style="font-style: italic; margin-bottom: 10px;">(Adjust the number of air particles
+                            according
+                            to your computer's power)</div>
+                    </div>
+                    <div class="airselector">
+                        <div>Number of air particles: <span class="airvalue"></span></div>
+                        <div class="airslider">
+                            <input type="range" class="slider sliderhover" id="airslider" value="300" min="50" max="500"
+                                step="1">
+                        </div>
+                    </div>
+                    <input type="checkbox" id="trace" name="trace" value="trace" onclick="traceClick()">
+                    <label for="trace">Dust particle path trace</label><br>
+                    <input type="checkbox" id="visible" name="visible" value="visible">
+                    <label for="visible">Visible air particles</label><br>
+                    <input type="checkbox" id="slowmo" name="slowmo" value="slowmo" onclick="slowmo()">
+                    <label for="slowmo">Slow motion</label><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
