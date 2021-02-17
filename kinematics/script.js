@@ -8,6 +8,8 @@ var windowWidth = window.innerWidth;
 var anim;
 var elem = document.getElementById("movingbox");
 var convFactor;
+var lowerlim;
+var upperlim;
 var m1 = 0;
 var m2 = 0;
 var s1 = 0;
@@ -18,10 +20,14 @@ var defaultPos;
 if (windowWidth < 900) {
     defaultPos = (-50 / 900 * 0.5 * windowWidth) - 2;
     convFactor = windowWidth / 948 * 45.;
+    lowerlim = defaultPos - 8;
+    upperlim = windowWidth - 8;
     $(".allbuttonsspace").css("height", $(".allbuttons").height());
 } else {
     defaultPos = -2;
     convFactor = 45.;
+    lowerlim = -10;
+    upperlim = 940;
 }
 var pos = defaultPos;
 var moveBool = false; //Boolean for whether the object is moving
@@ -40,7 +46,7 @@ $(".timer").html("<b>Timer: </b>" + "<font size='6'>" + m1 + m2 + ":" + s1 + s2 
 $(".disdisplay").html("<b>Initial Position: </b>" + "<font size='6'>" + disslider.value + " cm</font>");
 $(".veldisplay").html("<b>Initial Velocity: </b>" + "<font size='6'>" + velslider.value + " cm/s</font>");
 $(".accdisplay").html("<b>Acceleration: </b>" + "<font size='6'>" + accslider.value + " cm/s<sup>2</sup></font>");
-$(".disslider").on('input', function() {
+$(".disslider").on('input', function () {
     $(".disdisplay").html("<b>Initial Position: </b>" + "<font size='6'>" + this.value + " cm</font>");
     if (moveBool == false) {
         pos = defaultPos + this.value * convFactor;
@@ -49,11 +55,11 @@ $(".disslider").on('input', function() {
         return;
     }
 });
-$(".velslider").on('input', function() {
+$(".velslider").on('input', function () {
     $(".veldisplay").html("<b>Initial Velocity: </b>" + "<font size='6'>" + this.value + " cm/s</font>");
     vel = this.value * convFactor;
 });
-$(".accslider").on('input', function() {
+$(".accslider").on('input', function () {
     $(".accdisplay").html("<b>Acceleration: </b>" + "<font size='6'>" + this.value + " cm/s<sup>2</sup></font>");
     acc = this.value * convFactor;
 });
@@ -106,7 +112,7 @@ function frame(step = 0) {
     if (step != 0) { //For steps left or right
         if (counter < step) {
             if (vel >= 0) { //For positive velocity, check right limit
-                if (pos >= 940) {
+                if (pos >= upperlim) {
                     moveBool = false;
                     clearInterval(anim);
                 } else {
@@ -118,7 +124,7 @@ function frame(step = 0) {
                     counter++;
                 }
             } else { //For negative velocity, check left limit
-                if (pos < -10) {
+                if (pos < lowerlim) {
                     moveBool = false;
                     clearInterval(anim);
                 } else {
@@ -136,7 +142,7 @@ function frame(step = 0) {
         }
     } else { //For normal Play
         if (vel >= 0) { //For positive velocity, check right limit
-            if (pos >= 940) {
+            if (pos >= upperlim) {
                 moveBool = false;
                 clearInterval(anim);
             } else {
@@ -147,7 +153,7 @@ function frame(step = 0) {
                 myTimer();
             }
         } else { //For negative velocity, check left limit
-            if (pos < -10) {
+            if (pos < lowerlim) {
                 moveBool = false;
                 clearInterval(anim);
             } else {
@@ -166,7 +172,7 @@ function reverseFrame(step) {
         if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
             moveBool = false;
             clearInterval(anim);
-        } else if (pos < -10) {
+        } else if (pos < lowerlim) {
             moveBool = false;
             clearInterval(anim);
         } else {
@@ -206,7 +212,7 @@ function reverseFrame(step) {
         if (m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0 && ms1 == 0 && ms2 == 0) {
             moveBool = false;
             clearInterval(anim);
-        } else if (pos >= 940) {
+        } else if (pos >= upperlim) {
             moveBool = false;
             clearInterval(anim);
         } else {
@@ -401,3 +407,77 @@ function plotPoints() {
         }
     });
 }
+
+
+// For magnification
+function magnify(imgID, zoom) {
+    var img, glass, w, h, bw;
+    img = document.getElementById(imgID);
+    /*create magnifier glass:*/
+    glass = document.createElement("DIV");
+    glass.setAttribute("class", "img-magnifier-glass");
+    /*insert magnifier glass:*/
+    img.parentElement.insertBefore(glass, img);
+    /*set background properties for the magnifier glass:*/
+    glass.style.backgroundImage = "url('" + img.src + "')";
+    glass.style.backgroundRepeat = "no-repeat";
+    glass.style.backgroundSize = "1896px 230px";
+    // glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+    bw = 3;
+    w = glass.offsetWidth / 2;
+    h = glass.offsetHeight / 2;
+    /*execute a function when someone moves the magnifier glass over the image:*/
+    glass.addEventListener("mousemove", moveMagnifier);
+    img.addEventListener("mousemove", moveMagnifier);
+    /*and also for touch screens:*/
+    glass.addEventListener("touchmove", moveMagnifier);
+    img.addEventListener("touchmove", moveMagnifier);
+
+    function moveMagnifier(e) {
+        var pos, x, y;
+        /*prevent any other actions that may occur when moving over the image*/
+        e.preventDefault();
+        /*get the cursor's x and y positions:*/
+        pos = getCursorPos(e);
+        x = pos.x;
+        y = pos.y;
+        /*prevent the magnifier glass from being positioned outside the image:*/
+        if (x > img.width - (w / zoom)) {
+            x = img.width - (w / zoom);
+        }
+        if (x < w / zoom) {
+            x = w / zoom;
+        }
+        if (y > img.height - (h / zoom)) {
+            y = img.height - (h / zoom);
+        }
+        if (y < h / zoom) {
+            y = h / zoom;
+        }
+        /*set the position of the magnifier glass:*/
+        glass.style.left = (x - w) + "px";
+        glass.style.top = (y - h) + "px";
+        /*display what the magnifier glass "sees":*/
+        glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+    }
+
+    function getCursorPos(e) {
+        var a, x = 0,
+            y = 0;
+        e = e || window.event;
+        /*get the x and y positions of the image:*/
+        a = img.getBoundingClientRect();
+        /*calculate the cursor's x and y coordinates, relative to the image:*/
+        x = e.pageX - a.left;
+        y = e.pageY - a.top;
+        /*consider any page scrolling:*/
+        x = x - window.pageXOffset;
+        y = y - window.pageYOffset;
+        return {
+            x: x,
+            y: y
+        };
+    }
+}
+
+// magnify("ruler", 2);
