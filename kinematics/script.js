@@ -16,7 +16,7 @@ var ms1 = 0;
 var ms2 = 0;
 var defaultPos;
 if (windowWidth < 900) {
-    defaultPos = (-50 / 900 * 0.5 * windowWidth) - 3;
+    defaultPos = (-50 / 900 * 0.5 * windowWidth) - 2;
     convFactor = windowWidth / 948 * 45.;
     $(".allbuttonsspace").css("height", $(".allbuttons").height());
 } else {
