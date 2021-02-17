@@ -210,7 +210,7 @@ body {
     width: 600px;
     height: 300px;
     z-index: 10;
-    margin: -40px;
+    margin-top: -40px;
 }
 
 .dtgraph,
@@ -349,10 +349,14 @@ body {
     .vtgraphcontainer {
         width: 100vw;
     }
+    
+    .vtgraphcontainer {
+        margin-top: 0px;
+    }
 
     .dtgraph,
     .vtgraph {
-        width: calc(100vw - 50px);
+        width: 100vw;
     }
 }
 
