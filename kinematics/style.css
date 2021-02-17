@@ -1,0 +1,372 @@
+html,
+body {
+    overflow-x: hidden;
+}
+
+.mainwindow {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.maincontainer {
+    width: 100vw;
+    height: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.topfill,
+.bottomfill {
+    width: 100vw;
+    height: calc((100vh - 800px) / 2);
+    background-color: #ddd;
+    z-index: 10;
+}
+
+.leftfill,
+.rightfill {
+    width: calc((100vw - 400px - 500px) / 2);
+    height: 800px;
+    background-color: #ddd;
+    z-index: 10;
+}
+
+.bigbox {
+    width: 1000px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.topbox {
+    width: 1000px;
+    height: 200px;
+    background-color: #fcfcf1;
+    z-index: 1;
+    position: relative;
+}
+
+.topboxspace {
+    width: 1000px;
+    height: 200px;
+    z-index: 1;
+    position: relative;
+    display: none;
+}
+
+.movingbox {
+    width: 51px;
+    height: 50px;
+    position: absolute;
+    left: -2px;
+    top: 15px;
+}
+
+.ball {
+    width: 50px;
+    height: 50px;
+}
+
+.line {
+    width: 1px;
+    height: 50px;
+}
+
+.rulerbox {
+    width: 948px;
+    position: absolute;
+    left: 25px;
+    top: 65px;
+}
+
+.ruler {
+    object-fit: contain;
+    width: 948px;
+    height: 100%;
+}
+
+.bottombox {
+    width: 1000px;
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+}
+
+.infocontainer {
+    width: 400px;
+    background-color: #eee;
+    position: relative;
+    margin: 0px;
+}
+
+.infopadded {
+    padding: 5px;
+}
+
+.allbuttons {}
+
+.allbuttonsspace {
+    width: 400px;
+    height: 200px;
+    z-index: 1;
+    position: relative;
+    display: none;
+}
+
+.hotkeyinfo {
+    width: 400px;
+    font-size: 12px;
+    font-style: italic;
+}
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 380px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-bottom: 0px;
+}
+
+.sliderhover:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.graphs {
+    width: 600px;
+    background-color: white;
+    margin: 0px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 5;
+    position: relative;
+}
+
+.graphselector {
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.plotselector {
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.check {
+    margin-right: 10px;
+}
+
+.blankspace {
+    height: 25px;
+    width: 500px;
+}
+
+.dtgraphcontainer {
+    width: 600px;
+    height: 300px;
+    position: relative;
+}
+
+.vtgraphcontainer {
+    width: 600px;
+    height: 300px;
+    z-index: 10;
+    margin: -40px;
+}
+
+.dtgraph,
+.vtgraph {
+    width: 550px;
+    height: 300px;
+}
+
+.vtgraph {}
+
+.cloud {
+    position: absolute;
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 900px) {
+
+    .topfill,
+    .bottomfill,
+    .leftfill,
+    .rightfill {
+        display: none;
+    }
+
+    .mainwindow {
+        height: 100vh;
+    }
+
+    .maincontainer {
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .bigbox {
+        width: 100vw;
+        justify-content: flex-start;
+    }
+
+    .topbox {
+        width: 100vw;
+        height: calc((100vw / 1094 * 133) + calc(50 / 900 * 100vw) + 10px);
+        z-index: 10;
+        top: 0px;
+        position: fixed;
+    }
+
+    .topboxspace {
+        width: 100vw;
+        height: calc((100vw / 1094 * 133) + calc(50 / 900 * 100vw) + 10px);
+        display: block;
+    }
+
+    .movingbox {
+        width: calc((50 / 900 * 100vw) + 1px);
+        height: calc(50 / 900 * 100vw);
+        position: absolute;
+        left: calc((-50 / 900 * 50vw) - 3px);
+        top: 10px;
+    }
+
+    .ball {
+        width: calc(50 / 900 * 100vw);
+        height: calc(50 / 900 * 100vw);
+    }
+
+    .line {
+        width: 1px;
+        height: calc(50 / 900 * 100vw);
+    }
+
+    .rulerbox {
+        width: 100vw;
+        left: 0px;
+        top: calc((50 / 900 * 100vw) + 10px);
+        position: absolute;
+    }
+
+    .ruler {
+        object-fit: contain;
+        width: 100vw;
+        height: 100%;
+    }
+
+    .bottombox {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .infocontainer {
+        width: 100vw;
+    }
+
+    .allbuttons {
+        width: 100vw;
+        background-color: #eee;
+        z-index: 10;
+        padding-top: 5px;
+        top: calc((100vw / 1094 * 133) + calc(50 / 900 * 100vw) + 10px);
+        position: fixed;
+    }
+
+    .allbuttonsspace {
+        width: 100vw;
+        display: block;
+    }
+
+
+    .hotkeyinfo {
+        width: 100vw;
+        display: none;
+    }
+
+    .graphs,
+    .graphselector,
+    .plotselector {
+        width: 100vw;
+    }
+
+    .button-primary {
+        margin-bottom: 2px;
+    }
+
+    .slider {
+        width: calc(100vw - 20px);
+    }
+
+    .graphs {
+        width: 100vw;
+        height: calc(100vh - 500px);
+        justify-content: flex-start;
+    }
+
+    .dtgraphcontainer,
+    .vtgraphcontainer {
+        width: 100vw;
+    }
+
+    .dtgraph,
+    .vtgraph {
+        width: calc(100vw - 50px);
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .mainwindow {
+        height: 1250px;
+    }
+
+    .maincontainer {
+        height: 1250px;
+    }
+
+    .graphs {
+        height: 750px;
+    }
+
+}
