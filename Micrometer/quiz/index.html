@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <title>Micrometer Screwgauge Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+        .sketchcontainer {
+            margin-bottom: 20px;
+            width: 600px;
+            height: 280px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div>
+            <h1 style="margin-bottom: 10px;">Micrometer Screwgauge Quiz</h1>
+        </div>
+        <div style="margin-bottom: 20px;">Test yourself to see if you can read a micrometer screwgauge correctly!</div>
+        <div class="sketchcontainer">
+            <div id="sketch-holder"></div>
+        </div>
+        <div class="selectors">
+            <div class="reading">
+                Reading:
+                <input type="text" class="readinginput">
+                mm
+            </div>
+            <div>
+                <button class="submitbutton" onclick="submit()">Submit!</button>
+            </div>
+        </div>
+        <div class="remarks">
+
+        </div>
+    </div>
+</body>
+
+</html>
