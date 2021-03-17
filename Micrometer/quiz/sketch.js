@@ -20,9 +20,9 @@ let canvasElementX;
 let canvasElementY;
 let rightLimit = -653;
 let scaleNum = 0;
-let measurementslider;
 let measurement;
 let maxCal = 25;
+let streak = 0;
 
 function preload() {
     body = loadImage("../body.png");
@@ -125,20 +125,38 @@ function submit() {
     let userinputNum = Number(userinput);
     if (userinputNum.toFixed(2) == userinput) {
         if (userinput == measurement) {
-            $(".remarks").html("Correct! Try another one :)");
-            $(".remarks").addClass("correct");
-            $(".remarks").removeClass("wrong");
+            correctAnswer();
             randomReading();
             redraw();
             update();
         } else {
-            $(".remarks").html("Incorrect, please try again!");
-            $(".remarks").addClass("wrong");
-            $(".remarks").removeClass("correct");
+            wrongAnswer();
         }
     } else {
-        $(".remarks").html("Your number of d.p. is incorrect!");
-        $(".remarks").addClass("wrong");
-        $(".remarks").removeClass("correct");
+        wrongDP();
     }
+}
+
+function correctAnswer() {
+    streak += 1;
+    $(".remarks").html("Correct! Try another one :)");
+    $(".remarks").addClass("correct");
+    $(".remarks").removeClass("wrong");
+    $(".streak").html("Your streak: " + streak);
+}
+
+function wrongAnswer() {
+    streak = 0;
+    $(".remarks").html("Incorrect, please try again!");
+    $(".remarks").addClass("wrong");
+    $(".remarks").removeClass("correct");
+    $(".streak").html("Your streak: " + streak);
+}
+
+function wrongDP() {
+    streak = 0;
+    $(".remarks").html("Your number of d.p. is incorrect!");
+    $(".remarks").addClass("wrong");
+    $(".remarks").removeClass("correct");
+    $(".streak").html("Your streak: " + streak);
 }
