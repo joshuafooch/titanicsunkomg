@@ -156,6 +156,7 @@ function correctAnswer() {
     $(".remarks").addClass("correct");
     $(".remarks").removeClass("wrong");
     $(".streak").html("Your streak: " + streak);
+    $(".readinginput").val("");
 }
 
 function wrongAnswer() {
