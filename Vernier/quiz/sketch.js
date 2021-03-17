@@ -27,6 +27,8 @@ function preload() {
 }
 
 function setup() {
+    let newWidth;
+    let newHeight;
     var canvas = createCanvas(600, 350);
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     canvas.parent('sketch-holder');
@@ -34,6 +36,29 @@ function setup() {
     canvasElementY = document.getElementById("sketch-holder").offsetTop;
     randomReading();
     update();
+
+    //setup canvas size
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+    }
+    resizing(newWidth, newHeight);
+}
+
+function windowResized() {
+    let newWidth;
+    let newHeight;
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+    }
+    resizing(newWidth, newHeight);
 }
 
 function draw() {
@@ -147,4 +172,25 @@ function wrongDP() {
     $(".remarks").addClass("wrong");
     $(".remarks").removeClass("correct");
     $(".streak").html("Your streak: " + streak);
+}
+
+function resizing(width, height) {
+    $("#defaultCanvas0").css({
+        'height': height + "px"
+    });
+    $("#defaultCanvas0").css({
+        'width': width + "px"
+    });
+    $("#sketch-holder").css({
+        'height': height + "px"
+    });
+    $("#sketch-holder").css({
+        'width': width + "px"
+    });
+    $(".sketchcontainer").css({
+        'height': height + "px"
+    });
+    $(".sketchcontainer").css({
+        'width': width + "px"
+    });
 }
