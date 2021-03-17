@@ -46,8 +46,8 @@ body {
     text-align: center;
 }
 
-.remarks {
-    height: 15px;
+.remarks, .streak {
+    height: 20px;
     width: 100%;
     text-align: center;
 }
