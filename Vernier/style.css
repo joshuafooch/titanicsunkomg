@@ -3,6 +3,7 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: Raleway;
+    /* overflow: hidden; */
 }
 
 .maincontainer {
@@ -13,6 +14,20 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #F0F0F0;
+}
+
+.sketchcontainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sketch-holder {
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .unitselector {
@@ -27,7 +42,7 @@ body {
 
 .selectors {
     margin-bottom: 5px;
-    width: 1000px;
+    width: 100vw;
     display: flex;
     position: relative;
     justify-content: center;
@@ -59,7 +74,8 @@ body {
     margin-right: 5px;
 }
 
-.remarks, .streak {
+.remarks,
+.streak {
     height: 20px;
     width: 100%;
     text-align: center;
@@ -75,7 +91,15 @@ body {
 
 .sliders {
     width: 800px;
+    height: 30px;
     position: relative;
+}
+
+.slider {
+    position: absolute;
+    left: 250px;
+    width: 300px;
+    margin-bottom: 0px;
 }
 
 .cropdiv {
@@ -85,4 +109,49 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+@media screen and (max-width: 900px) {
+    .maincontainer {
+        height: auto;
+    }
+
+    h2 {
+        margin-top: 30px;
+    }
+
+    .selectors {
+        width: 100vw;
+        flex-direction: column;
+    }
+
+    .unitselector, .zero,
+    .length {
+        margin-right: 0px;
+    }
+
+    .unitselector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cropdiv {
+        display: none;
+    }
+
+    .sliders {
+        width: 100vw;
+        text-align: center;
+    }
+
+    .slider {
+        position: relative;
+        left: auto;
+    }
+
+    .streak {
+        margin-bottom: 30px;
+    }
 }

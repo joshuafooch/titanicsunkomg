@@ -26,30 +26,44 @@ function preload() {
 }
 
 function setup() {
+    let newWidth;
+    let newHeight;
     var canvas = createCanvas(800, 600);
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     canvas.parent('sketch-holder');
     canvasElementX = document.getElementById("sketch-holder").offsetLeft;
     canvasElementY = document.getElementById("sketch-holder").offsetTop;
     measurementslider = document.getElementById("measurementslider");
-    $("#defaultCanvas0").css({
-        'height': "510px"
-    });
-    $("#defaultCanvas0").css({
-        'width': "680px"
-    });
-    $("#sketch-holder").css({
-        'height': "510px"
-    });
-    $("#sketch-holder").css({
-        'width': "680px"
-    });
-    $(".sketchcontainer").css({
-        'height': "510px"
-    });
-    $(".sketchcontainer").css({
-        'width': "680px"
-    });
+
+    //setup canvas size
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 4 * 3;
+        checkCrop();
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+        $("#cropCheckbox").prop("checked", true);
+        checkCrop();
+    }
+    resizing(newWidth, newHeight);
+}
+
+function windowResized() {
+    let newWidth;
+    let newHeight;
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 4 * 3;
+        $("#cropCheckbox").prop("checked", false);
+        checkCrop();
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 4 * 3 / 0.75 * 297.5 / 510;
+        $("#cropCheckbox").prop("checked", true);
+        checkCrop();
+    }
+    resizing(newWidth, newHeight);
 }
 
 function draw() {
@@ -139,6 +153,8 @@ function update() {
 }
 
 function checkCrop() {
+    let newWidth = 0.40 * screen.width;
+    let newHeight = 0.40 * screen.width / 4 * 3;
     if (document.getElementById("cropCheckbox").checked) {
         resizeCanvas(600, 350);
         ImgY = -60;
@@ -150,22 +166,22 @@ function checkCrop() {
         else factor = 10;
         rightLimit = -1523 + document.getElementById("zeroerror").value * factor;
         $("#defaultCanvas0").css({
-            'height': "297.5px"
+            'height': 297.5 / 510 * newHeight + "px"
         });
         $("#defaultCanvas0").css({
-            'width': "510px"
+            'width': 0.75 * newWidth + "px"
         });
         $("#sketch-holder").css({
-            'height': "297.5px"
+            'height': 297.5 / 510 * newHeight + "px"
         });
         $("#sketch-holder").css({
-            'width': "510px"
+            'width': 0.75 * newWidth + "px"
         });
         // $(".sketchcontainer").css({
-        //     'height': "297.5px"
+        //     'height': 297.5 / 510 * newHeight + "px"
         // });
         // $(".sketchcontainer").css({
-        //     'width': "510px"
+        //     'width': 0.75 * newWidth + "px"
         // });
     } else {
         resizeCanvas(800, 600);
@@ -177,23 +193,27 @@ function checkCrop() {
         if (selectcmBool) factor = 100;
         else factor = 10;
         rightLimit = -1423 + document.getElementById("zeroerror").value * factor;
-        $("#defaultCanvas0").css({
-            'height': "510px"
-        });
-        $("#defaultCanvas0").css({
-            'width': "680px"
-        });
-        $("#sketch-holder").css({
-            'height': "510px"
-        });
-        $("#sketch-holder").css({
-            'width': "680px"
-        });
-        $(".sketchcontainer").css({
-            'height': "510px"
-        });
-        $(".sketchcontainer").css({
-            'width': "680px"
-        });
+        resizing(newWidth, newHeight);
     }
+}
+
+function resizing(width, height) {
+    $("#defaultCanvas0").css({
+        'height': height + "px"
+    });
+    $("#defaultCanvas0").css({
+        'width': width + "px"
+    });
+    $("#sketch-holder").css({
+        'height': height + "px"
+    });
+    $("#sketch-holder").css({
+        'width': width + "px"
+    });
+    $(".sketchcontainer").css({
+        'height': height + "px"
+    });
+    $(".sketchcontainer").css({
+        'width': width + "px"
+    });
 }

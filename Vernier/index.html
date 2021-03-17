@@ -31,9 +31,9 @@
 <body>
     <div class="maincontainer">
         <div>
-            <h2 style="margin-bottom: 10px;">Vernier Caliper Image Generator</h1>
+            <h2 style="margin-bottom: 10px; text-align: center;">Vernier Caliper Image Generator</h1>
         </div>
-        <div style="margin-bottom: 20px;">Generate images you can directly copy! Click <a href="./quiz">here</a> to
+        <div style="margin-bottom: 20px; padding: 10px;">Generate images you can directly copy! Click <a href="./quiz">here</a> to
             access the quiz.</div>
         <div class="sketchcontainer">
             <div id="sketch-holder"></div>
@@ -43,9 +43,9 @@
                 <div style="font-weight: bold;">Unit of measurement: </div>
                 <div class="radios">
                     <input type="radio" name="unit" id="cmradio" onclick="selectcm()" checked>
-                    <label for="cmradio">cm</label>
+                    <label for="cmradio" style="margin-right: 20px; margin-left: 10px">cm</label>
                     <input type="radio" name="unit" id="mmradio" onclick="selectmm()">
-                    <label for="mmradio">mm</label>
+                    <label for="mmradio" style="margin-left: 10px">mm</label>
                 </div>
             </div>
             <div class="zero">
@@ -61,13 +61,13 @@
             </div>
         </div>
         <div class="sliders">
-            <div style="left: 230px; position: absolute;">
+            <div>
                 <input type="range" id="measurementslider" min="0.00" max="15.22" value="0.00" step="0.01"
-                    style="width: 300px;">
+                    class="slider">
             </div>
             <div class="cropdiv">
                 <input type="checkbox" id="cropCheckbox" name="cropCheckbox" onclick="checkCrop()">
-                <label for="cropCheckbox">Cropped image</label>
+                <label for="cropCheckbox" style="margin-left: 10px">Cropped image</label>
             </div>
         </div>
     </div>
