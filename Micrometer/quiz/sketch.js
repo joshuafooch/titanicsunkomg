@@ -37,6 +37,8 @@ function preload() {
 }
 
 function setup() {
+    let newWidth;
+    let newHeight;
     var canvas = createCanvas(600, 280);
     ImgY = 0;
     defaultX = -295;
@@ -48,6 +50,29 @@ function setup() {
     canvasElementY = document.getElementById("sketch-holder").offsetTop;
     randomReading();
     update();
+
+    //setup canvas size
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 600 * 280;
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 600 * 280;
+    }
+    resizing(newWidth, newHeight);
+}
+
+function windowResized() {
+    let newWidth;
+    let newHeight;
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 600 * 280;
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 600 * 280;
+    }
+    resizing(newWidth, newHeight);
 }
 
 function draw() {
@@ -143,6 +168,7 @@ function correctAnswer() {
     $(".remarks").addClass("correct");
     $(".remarks").removeClass("wrong");
     $(".streak").html("Your streak: " + streak);
+    $(".readinginput").val("");
 }
 
 function wrongAnswer() {
@@ -159,4 +185,25 @@ function wrongDP() {
     $(".remarks").addClass("wrong");
     $(".remarks").removeClass("correct");
     $(".streak").html("Your streak: " + streak);
+}
+
+function resizing(width, height) {
+    $("#defaultCanvas0").css({
+        'height': height + "px"
+    });
+    $("#defaultCanvas0").css({
+        'width': width + "px"
+    });
+    $("#sketch-holder").css({
+        'height': height + "px"
+    });
+    $("#sketch-holder").css({
+        'width': width + "px"
+    });
+    $(".sketchcontainer").css({
+        'height': height + "px"
+    });
+    $(".sketchcontainer").css({
+        'width': width + "px"
+    });
 }

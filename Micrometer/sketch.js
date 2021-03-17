@@ -36,12 +36,44 @@ function preload() {
 }
 
 function setup() {
+    let newWidth;
+    let newHeight;
     var canvas = createCanvas(800, 500);
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     canvas.parent('sketch-holder');
     canvasElementX = document.getElementById("sketch-holder").offsetLeft;
     canvasElementY = document.getElementById("sketch-holder").offsetTop;
     measurementslider = document.getElementById("measurementslider");
+
+    //setup canvas size
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 8 * 5;
+        checkCrop();
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 600 * 280;
+        $("#cropCheckbox").prop("checked", true);
+        checkCrop();
+    }
+    resizing(newWidth, newHeight);
+}
+
+function windowResized() {
+    let newWidth;
+    let newHeight;
+    if (screen.width >= 900) {
+        newWidth = 0.40 * screen.width;
+        newHeight = 0.40 * screen.width / 8 * 5;
+        $("#cropCheckbox").prop("checked", false);
+        checkCrop();
+    } else {
+        newWidth = screen.width;
+        newHeight = screen.width / 600 * 280;
+        $("#cropCheckbox").prop("checked", true);
+        checkCrop();
+    }
+    resizing(newWidth, newHeight);
 }
 
 function draw() {
@@ -132,17 +164,54 @@ function update() {
 }
 
 function checkCrop() {
+    let newWidth = 0.40 * screen.width;
+    let newHeight = 0.40 * screen.width / 8 * 5;
     if (document.getElementById("cropCheckbox").checked) {
         resizeCanvas(600, 280);
         defaultX = -295;
         ImgX -= 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
         leftLimit = 0;
+        $("#defaultCanvas0").css({
+            'height': 280 / 500 * newHeight + "px"
+        });
+        $("#defaultCanvas0").css({
+            'width': 0.75 * newWidth + "px"
+        });
+        $("#sketch-holder").css({
+            'height': 280 / 500 * newHeight + "px"
+        });
+        $("#sketch-holder").css({
+            'width': 0.75 * newWidth + "px"
+        });
     } else {
         resizeCanvas(800, 500);
         defaultX = -195;
         ImgX += 100;
         document.getElementById("sketch-holder").classList.toggle("cropped");
         leftLimit = 0;
+        resizing(newWidth, newHeight);
     }
+}
+
+
+function resizing(width, height) {
+    $("#defaultCanvas0").css({
+        'height': height + "px"
+    });
+    $("#defaultCanvas0").css({
+        'width': width + "px"
+    });
+    $("#sketch-holder").css({
+        'height': height + "px"
+    });
+    $("#sketch-holder").css({
+        'width': width + "px"
+    });
+    $(".sketchcontainer").css({
+        'height': height + "px"
+    });
+    $(".sketchcontainer").css({
+        'width': width + "px"
+    });
 }
