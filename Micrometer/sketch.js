@@ -95,34 +95,45 @@ function draw() {
     image(body, ImgX, ImgY);
     image(thimble, ImgX + armXoff, ImgY);
     if (scaleRemainder == 0) {
-        let temp = scaleNum - 5;
+        let temp1 = scaleNum - 5;
+        let temp2 = scaleNum + 5;
+        if (temp2 >= 50) temp2 = temp2 - 50;
         if (scaleNum == 0) temp = 50 + scaleNum - 5;
         image(scale0, ImgX + armXoff, ImgY);
-        text(temp, 650 + ImgX + armXoff, 208 + ImgY);
+        text(temp1, 650 + ImgX + armXoff, 208 + ImgY);
         text(scaleNum, 650 + ImgX + armXoff, 148 + ImgY);
-        text(scaleNum + 5, 650 + ImgX + armXoff, 88 + ImgY);
+        text(temp2, 650 + ImgX + armXoff, 88 + ImgY);
     } else if (scaleRemainder == 1) {
-        let temp = scaleNum - 6;
+        let temp1 = scaleNum - 6;
+        let temp2 = scaleNum + 4;
+        if (temp2 >= 50) temp2 = temp2 - 50;
         if (scaleNum == 1) temp = 49 + scaleNum - 5;
         image(scale1, ImgX + armXoff, ImgY);
-        text(temp, 650 + ImgX + armXoff, 218 + ImgY);
+        text(temp1, 650 + ImgX + armXoff, 218 + ImgY);
         text(scaleNum - 1, 650 + ImgX + armXoff, 158 + ImgY);
-        text(scaleNum + 4, 650 + ImgX + armXoff, 98 + ImgY);
+        text(temp2, 650 + ImgX + armXoff, 98 + ImgY);
     } else if (scaleRemainder == 2) {
+        let temp2 = scaleNum + 3;
+        if (temp2 >= 50) temp2 = temp2 - 50;
         image(scale2, ImgX + armXoff, ImgY);
         text(scaleNum - 2, 650 + ImgX + armXoff, 173 + ImgY);
-        text(scaleNum + 3, 650 + ImgX + armXoff, 113 + ImgY);
+        text(temp2, 650 + ImgX + armXoff, 113 + ImgY);
     } else if (scaleRemainder == 3) {
+        let temp2 = scaleNum + 2;
+        if (temp2 >= 50) temp2 = temp2 - 50;
         image(scale3, ImgX + armXoff, ImgY);
         text(scaleNum - 3, 650 + ImgX + armXoff, 183 + ImgY);
-        text(scaleNum + 2, 650 + ImgX + armXoff, 123 + ImgY);
+        text(temp2, 650 + ImgX + armXoff, 123 + ImgY);
     } else if (scaleRemainder == 4) {
-        let temp = scaleNum + 6;
+        let temp1 = scaleNum + 1;
+        let temp2 = scaleNum + 6;
+        if (temp1 >= 50) temp1 = temp1 - 50;
+        if (temp2 >= 50) temp2 = temp2 - 50;
         if (scaleNum == 49) temp = scaleNum - 50 + 6;
         image(scale4, ImgX + armXoff, ImgY);
         text(scaleNum - 4, 650 + ImgX + armXoff, 198 + ImgY);
-        text(scaleNum + 1, 650 + ImgX + armXoff, 138 + ImgY);
-        text(temp, 650 + ImgX + armXoff, 78 + ImgY);
+        text(temp1, 650 + ImgX + armXoff, 138 + ImgY);
+        text(temp2, 650 + ImgX + armXoff, 78 + ImgY);
     }
     image(cutoff, ImgX + armXoff, ImgY);
 }
