@@ -97,6 +97,7 @@ function draw() {
     if (scaleRemainder == 0) {
         let temp1 = scaleNum - 5;
         let temp2 = scaleNum + 5;
+        if (temp1 < 0) temp1 = temp1 + 50;
         if (temp2 >= 50) temp2 = temp2 - 50;
         if (scaleNum == 0) temp = 50 + scaleNum - 5;
         image(scale0, ImgX + armXoff, ImgY);
@@ -106,6 +107,7 @@ function draw() {
     } else if (scaleRemainder == 1) {
         let temp1 = scaleNum - 6;
         let temp2 = scaleNum + 4;
+        if (temp1 < 0) temp1 = temp1 + 50;
         if (temp2 >= 50) temp2 = temp2 - 50;
         if (scaleNum == 1) temp = 49 + scaleNum - 5;
         image(scale1, ImgX + armXoff, ImgY);
