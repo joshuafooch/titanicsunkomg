@@ -293,6 +293,10 @@ img {
         width: 80vw;
     }
 
+    .titletext2 {
+        width: 80vw;
+    }
+
     .imagescontainer {
         flex-direction: column;
         margin-bottom: 10px;
