@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration of a Dense Neural Network Trained on Recognizing Numbers</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+        integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>   
+    <script src="sketch.js" type="module"></script>
+    <script src="script.js" type="module"></script>
+</head>
+
+<body>
+    <div class="hiddenspace"></div>
+    <div class="maincontainer">
+        <div class="titlecontainer">
+            <div class="maintitle">Illustration of a Dense Neural Network</div>
+        </div>
+        <div class="titletext">A simply three-layer dense neural network has been trained to recognize numbers. The activations of each unit of the network is illustrated below. You may toggle between a trained and an untrained network to see the difference in activations. Try writing below!
+        </div>
+        <div class="predictioncontainer"></div>
+        <div class="sketchcontainer">
+            <div id="sketch-holder"></div>
+            <div id="illustration-holder"></div>
+        </div>
+        <div class="buttonscontainer">
+            <div class="modelbuttons">
+                <input type="radio" id="trained" name="model" checked/>
+                <label for="trained">Trained</label>
+                <input type="radio" id="untrained" name="model"/>
+                <label for="untrained">Untrained</label>
+            </div>
+            <div class="submit"><button id="resetbutton" class="button-primary">Reset</button></div>
+        </div>
+    </div>
+</body>
+
+</html>

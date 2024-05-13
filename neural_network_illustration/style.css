@@ -1,0 +1,148 @@
+/* :root {
+    --promptWidth: 290px;
+    --promptHeight: 180px;
+    --marginBetweenContainer: 15px;
+} */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    /* height: 100%; */
+    /* overscroll-behavior: contain;
+    overflow: hidden; */
+}
+
+canvas,
+img {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+.maincontainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.titlecontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.maintitle {
+    font-size: 40px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.titletext {
+    width: 70vw;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.predictioncontainer {
+    font-size: 30px;
+    height: 40px;
+    font-weight: bold;
+    width: 100vw;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sketchcontainer {
+    width: 70vw;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#sketch-holder {
+    border: 5px solid black;
+}
+
+.buttonscontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.modelbuttons {
+    display:flex;
+    flex-direction: row;
+}
+
+#trained, #untrained {
+    margin-right: 5px;
+}
+
+label {
+    margin-right: 20px;
+}
+
+#recognizebutton, #resetbutton {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    width: 120px;
+}
+
+
+
+/* #sketch-holder {
+    height: 400px;
+    width: 400px;
+} */
+
+@media screen and (max-width: 700px) {
+    /* .titlecontainer {
+        width: 80vw;
+    } */
+    
+    .hiddenspace {
+        height: 50px;
+    }
+
+    .maincontainer {
+        height: auto;
+    }
+
+    .maintitle {
+        font-size: 30px;
+    }
+
+    .titletext {
+        width: 80vw;
+    }
+
+    .sketchcontainer {
+        width: 80vw;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    #sketch-holder {
+        order: 2;
+    }
+
+    #illustration-holder {
+        order: 1;
+        margin-bottom: 20px;
+    }
+
+}
