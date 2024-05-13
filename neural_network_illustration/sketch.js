@@ -6,6 +6,7 @@ let inputHeight;
 let inputY;
 let layer1Height;
 let layer1Y;
+let startingX = 20;
 
 $("#resetbutton").on("click", () => {
     resetCanvases();
@@ -45,11 +46,7 @@ function resetCanvases() {
 // Instantiate sketch canvas
 let canvas = function(p) {
     p.setup = () => {
-        var clientwidth = document.body.clientWidth;
-        var canvaswidth = 300;
-        if (clientwidth <= 310) {
-            canvaswidth = Math.round(0.95 * clientwidth);
-        }
+        let canvaswidth = 300;
         p.createCanvas(canvaswidth, canvaswidth);
         $("#sketch-holder").width(canvaswidth);
         $("#sketch-holder").height(canvaswidth);
@@ -81,14 +78,10 @@ export var canvasp5 = new p5(canvas, 'sketch-holder');
 // Instantiate illustration canvas
 let illustration = async function(p) {
     p.setup = () => {
-        var clientwidth = document.body.clientWidth;
-        var canvaswidth = 300;
-        if (clientwidth <= 310) {
-            canvaswidth = Math.round(0.95 * clientwidth);
-        }
-        p.createCanvas(450, canvaswidth);
-        $("#illustration-holder").width(450);
-        $("#illustration-holder").height(canvaswidth);
+        let canvasheight = 300;
+        p.createCanvas(380, canvasheight);
+        $("#illustration-holder").width(380);
+        $("#illustration-holder").height(canvasheight);
     
         p.pixelDensity(20);
         p.loadPixels();
@@ -99,17 +92,17 @@ let illustration = async function(p) {
         // Draw layers and units
         // Input layer
         p.strokeWeight(3);
-        inputHeight = Math.floor(0.95 * canvaswidth);
-        inputY = Math.floor(0.025 * canvaswidth);
-        layer1Height = Math.floor(0.95 * canvaswidth);
-        layer1Y = Math.floor(0.025 * canvaswidth);
+        inputHeight = Math.floor(0.95 * canvasheight);
+        inputY = Math.floor(0.025 * canvasheight);
+        layer1Height = Math.floor(0.95 * canvasheight);
+        layer1Y = Math.floor(0.025 * canvasheight);
 
         
-        p.rect(50, inputY, 40, inputHeight);
+        p.rect(startingX, inputY, 40, inputHeight);
         p.push();
             p.fill(0);
             p.textSize(30);
-            p.translate(80, 250);
+            p.translate(startingX + 30, 250);
             p.rotate(p.radians(270));
             p.text("Flattened input", 0, 0);
         p.pop();
@@ -118,48 +111,48 @@ let illustration = async function(p) {
                 p.push();
                 p.stroke(100);
                 p.strokeWeight(1);
-                p.line(100, layer1Y+16+i*28, 140, layer1Y+16+j*28);
+                p.line(startingX + 50, layer1Y+16+i*28, startingX + 90, layer1Y+16+j*28);
                 p.pop();
             }
         }
         // Layer 1
         p.strokeWeight(3);
-        p.rect(150, layer1Y, 40, layer1Height);
+        p.rect(startingX + 100, layer1Y, 40, layer1Height);
         for(let i=0; i<10; i++) {
             p.strokeWeight(3);
-            p.circle(170, layer1Y+16 + i*28, 25);
+            p.circle(startingX + 120, layer1Y+16 + i*28, 25);
             for(let j=0; j<10; j++) {
                 p.push();
                 p.stroke(100);
                 p.strokeWeight(1);
-                p.line(200, layer1Y+16+i*28, 240, layer1Y+16+j*28);
+                p.line(startingX + 150, layer1Y+16+i*28, startingX + 190, layer1Y+16+j*28);
                 p.pop();
             }
         }
         // Layer 2
         p.strokeWeight(3);
-        p.rect(250, layer1Y, 40, layer1Height);
+        p.rect(startingX + 200, layer1Y, 40, layer1Height);
         for(let i=0; i<10; i++) {
             p.strokeWeight(3);
-            p.circle(270, layer1Y+16 + i*28, 25);
+            p.circle(startingX + 220, layer1Y+16 + i*28, 25);
             for(let j=0; j<10; j++) {
                 p.push();
                 p.stroke(100);
                 p.strokeWeight(1);
-                p.line(300, layer1Y+16+i*28, 340, inputY+16+j*28);
+                p.line(startingX + 250, layer1Y+16+i*28, startingX + 290, inputY+16+j*28);
                 p.pop();
             }
         }
         // Layer 3 (Output)
         p.strokeWeight(3);
-        p.rect(350, inputY, 40, inputHeight);
+        p.rect(startingX + 300, inputY, 40, inputHeight);
         for(let i=0; i<10; i++) {
             p.strokeWeight(3);
             p.fill(255);
-            p.circle(370, inputY+16 + i*28, 25);
+            p.circle(startingX + 320, inputY+16 + i*28, 25);
             p.textAlign('CENTER');
             p.fill(0);
-            p.text(i, 367, inputY+16+i*28+4);
+            p.text(i, startingX + 317, inputY+16+i*28+4);
         }
     };
     
@@ -178,32 +171,32 @@ let illustration = async function(p) {
             // Layer 1
             p.strokeWeight(3);
             p.fill(255);
-            p.rect(150, layer1Y, 40, layer1Height);
+            p.rect(startingX + 100, layer1Y, 40, layer1Height);
             for(let i=0; i<10; i++) {
                 p.strokeWeight(3);
                 p.fill(p.color(0, greenColorMap1[i], 0, 100));
-                p.circle(170, layer1Y+16 + i*28, 25);
+                p.circle(startingX + 120, layer1Y+16 + i*28, 25);
             }
             // Layer 2
             p.strokeWeight(3);
             p.fill(255);
-            p.rect(250, layer1Y, 40, layer1Height);
+            p.rect(startingX + 200, layer1Y, 40, layer1Height);
             for(let i=0; i<10; i++) {
                 p.strokeWeight(3);
                 p.fill(p.color(0, greenColorMap2[i], 0, 100));
-                p.circle(270, layer1Y+16 + i*28, 25);
+                p.circle(startingX + 220, layer1Y+16 + i*28, 25);
             }
             // Layer 3 (Output)
             p.strokeWeight(3);
             p.fill(255);
-            p.rect(350, inputY, 40, inputHeight);
+            p.rect(startingX + 300, inputY, 40, inputHeight);
             for(let i=0; i<10; i++) {
                 p.strokeWeight(3);
                 p.fill(p.color(0, greenColorMap3[i], 0, 100));
-                p.circle(370, inputY+16 + i*28, 25);
+                p.circle(startingX + 320, inputY+16 + i*28, 25);
                 p.textAlign('CENTER');
                 p.fill(0);
-                p.text(i, 367, inputY+16+i*28+4);
+                p.text(i, startingX + 317, inputY+16+i*28+4);
             }
         }
     };

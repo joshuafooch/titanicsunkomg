@@ -73,6 +73,7 @@ img {
 
 #sketch-holder {
     border: 5px solid black;
+    margin-right: 30px;
 }
 
 .buttonscontainer {
@@ -139,6 +140,7 @@ label {
 
     #sketch-holder {
         order: 2;
+        margin-right: 0px;
     }
 
     #illustration-holder {
