@@ -35,13 +35,22 @@
         </div>
         <div class="buttonscontainer">
             <div class="modelbuttons">
-                <input type="radio" id="trained" name="model" checked/>
-                <label for="trained">Trained</label>
-                <input type="radio" id="untrained" name="model"/>
-                <label for="untrained">Untrained</label>
+                <div class="firstrowbuttons">
+                    <input type="radio" id="trained" name="model" checked/>
+                    <label for="trained">Trained</label>
+                    <input type="radio" id="untrained" name="model"/>
+                    <label for="untrained">Untrained</label>
+                </div>
+                <div class="secondrowbuttons">
+                    <input type="checkbox" id="centroid" checked/>
+                    <label for="centroid">Center digit</label>
+                    <input type="checkbox" id="resize"/>
+                    <label for="resize">Resize digit</label>
+                </div>
             </div>
             <div class="submit"><button id="resetbutton" class="button-primary">Reset</button></div>
         </div>
+        <div class="explanation">("Center digit" centers the digit on its centroid before running the inference, increasing the accuracy of the inference. "Resize digit" resizes the digit to a standard size before running the inference, further increasing the accuracy. However, selecting these options will increase computation requirements.)</div>
     </div>
 </body>
 

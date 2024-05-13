@@ -24,6 +24,22 @@ $("#untrained").on("click", () => {
     init = 0;
 });
 
+$("#centroid").on("click", () => {
+    if (!$("#centroid:checked").val() && $("#resize:checked").val()) {
+        $("#resize").prop("checked", false);
+    }
+    init = 1;
+    illustrationp5.draw();
+    init = 0;
+});
+
+$("#resize").on("click", () => {
+    $("#centroid").prop("checked", true);
+    init = 1;
+    illustrationp5.draw();
+    init = 0;
+});
+
 function resetCanvases() {
     canvasp5.clear();
     canvasp5.background(255);

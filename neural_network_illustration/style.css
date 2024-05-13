@@ -76,19 +76,14 @@ img {
     margin-right: 50px;
 }
 
-.buttonscontainer {
+.buttonscontainer, .modelbuttons, .firstrowbuttons, .secondrowbuttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.modelbuttons {
-    display:flex;
-    flex-direction: row;
-}
-
-#trained, #untrained {
+#trained, #untrained, #centroid, #resize {
     margin-right: 5px;
 }
 
@@ -101,6 +96,11 @@ label {
     padding-right: 15px;
     margin-right: 10px;
     width: 120px;
+}
+
+.explanation {
+    width: 80vw;
+    font-style: italic;
 }
 
 
@@ -146,6 +146,14 @@ label {
     #illustration-holder {
         order: 1;
         margin-bottom: 20px;
+    }
+
+    .modelbuttons {
+        flex-direction: column;
+    }
+
+    .explanation {
+        width: 80vw;
     }
 
 }

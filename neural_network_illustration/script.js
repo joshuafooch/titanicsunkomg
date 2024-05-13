@@ -28,17 +28,23 @@ export function recognize(pixels) {
   pixelArray = tf.image.resizeBilinear(pixelArray, [28, 28]); //resize to (28, 28, 1)
 
   // centralise image on its centroid
-  let paddedImage = tf.tidy(() => {
-    return preprocessImage(pixelArray);
+  if ($("#centroid:checked").val() && !$("#resize:checked").val()) pixelArray = tf.tidy(() => {
+    return centralise(pixelArray);
   });
 
+  // centralise and resize image
+  if ($("#resize:checked").val()) pixelArray = tf.tidy(() => {
+    return centraliseAndResize(pixelArray);
+  });
+
+
   // run inference
-  pixelArray = tf.expandDims(paddedImage, 0); //add batch dimension
+  pixelArray = tf.expandDims(pixelArray, 0); //add batch dimension
   let outputs = ($(".modelbuttons input[id='trained']:checked").val()) ? trainedModel.predict(pixelArray) : untrainedModel.predict(pixelArray);
   return outputs;
 }
 
-function preprocessImage(pixelArray) { // centralises image on centroid
+function centralise(pixelArray) { // centralises image on centroid
   let centroidProduct = tf.sum(tf.sum(tf.mul(pixelArray, centroidMap), 1), 0);
   let pixelSum = tf.sum(tf.sum(pixelArray, 1), 0);
   let centroid = tf.round(tf.div(centroidProduct, pixelSum));
@@ -52,59 +58,59 @@ function preprocessImage(pixelArray) { // centralises image on centroid
   return paddedImage;
 }
 
-// function preprocessImage(pixelArray) { // centralises image on centroid and RESIZES digit to standard size but requires more computation
-//   let centroidProduct = tf.sum(tf.sum(tf.mul(pixelArray, centroidMap), 1), 0);
-//   let pixelSum = tf.sum(tf.sum(pixelArray, 1), 0);
-//   let centroid = tf.round(tf.div(centroidProduct, pixelSum));
-//   let [centroidY, centroidX] = centroid.dataSync();
-//   let top, bottom, left, right;
+function centraliseAndResize(pixelArray) { // centralises image on centroid and RESIZES digit to standard size but requires more computation
+  let centroidProduct = tf.sum(tf.sum(tf.mul(pixelArray, centroidMap), 1), 0);
+  let pixelSum = tf.sum(tf.sum(pixelArray, 1), 0);
+  let centroid = tf.round(tf.div(centroidProduct, pixelSum));
+  let [centroidY, centroidX] = centroid.dataSync();
+  let top, bottom, left, right;
 
-//   for(let i=0; i<28; i++) {
-//     let rowSlice = pixelArray.slice([i, 0], [1, 28]);
-//     let rowSum = tf.sum(rowSlice);
-//     if (rowSum.dataSync()[0] != 0) {
-//       top = i;
-//       break;
-//     }
-//   }
-//   for(let i=27; i>=0; i--) {
-//     let rowSlice = pixelArray.slice([i, 0], [1, 28]);
-//     let rowSum = tf.sum(rowSlice);
-//     if (rowSum.dataSync()[0] != 0) {
-//       bottom = i;
-//       break;
-//     }
-//   }
-//   for(let i=0; i<28; i++) {
-//     let colSlice = pixelArray.slice([0, i], [28, 1]);
-//     let colSum = tf.sum(colSlice);
-//     if (colSum.dataSync()[0] != 0) {
-//       left = i;
-//       break;
-//     }
-//   }
-//   for(let i=27; i>=0; i--) {
-//     let colSlice = pixelArray.slice([0, i], [28, 1]);
-//     let colSum = tf.sum(colSlice);
-//     if (colSum.dataSync()[0] != 0) {
-//       right = i;
-//       break;
-//     }
-//   }
+  for(let i=0; i<28; i++) {
+    let rowSlice = pixelArray.slice([i, 0], [1, 28]);
+    let rowSum = tf.sum(rowSlice);
+    if (rowSum.dataSync()[0] != 0) {
+      top = i;
+      break;
+    }
+  }
+  for(let i=27; i>=0; i--) {
+    let rowSlice = pixelArray.slice([i, 0], [1, 28]);
+    let rowSum = tf.sum(rowSlice);
+    if (rowSum.dataSync()[0] != 0) {
+      bottom = i;
+      break;
+    }
+  }
+  for(let i=0; i<28; i++) {
+    let colSlice = pixelArray.slice([0, i], [28, 1]);
+    let colSum = tf.sum(colSlice);
+    if (colSum.dataSync()[0] != 0) {
+      left = i;
+      break;
+    }
+  }
+  for(let i=27; i>=0; i--) {
+    let colSlice = pixelArray.slice([0, i], [28, 1]);
+    let colSum = tf.sum(colSlice);
+    if (colSum.dataSync()[0] != 0) {
+      right = i;
+      break;
+    }
+  }
 
-//   let cropHeight = bottom - top;
-//   let cropWidth = right - left;
-//   let resizeHeight = 20; //~80% of total height
-//   let resizeWidth = Math.round(cropWidth / cropHeight * resizeHeight);
-//   let croppedImage = pixelArray.slice([top, left, 0], [cropHeight, cropWidth, 1]); // crop just the digit
-//   let resizedImage = tf.image.resizeBilinear(croppedImage, [resizeHeight, resizeWidth]); // resize the digit such that its height is 80% of the total height
-//   let topToCentroidY = centroidY - top;
-//   let topPad = Math.round(14 - (topToCentroidY / cropHeight) * resizeHeight);
-//   let bottomPad = 28 - resizeHeight - topPad;
-//   let leftToCentroidX = centroidX - left;
-//   let leftPad = Math.round(14 - (leftToCentroidX / cropWidth) * resizeWidth);
-//   let rightPad = 28 - resizeWidth - leftPad;
-//   let paddedImage = resizedImage.pad([[topPad, bottomPad], [leftPad, rightPad], [0, 0]]);
+  let cropHeight = bottom - top;
+  let cropWidth = right - left;
+  let resizeHeight = 18; //~70% of total height
+  let resizeWidth = Math.round(cropWidth / cropHeight * resizeHeight);
+  let croppedImage = pixelArray.slice([top, left, 0], [cropHeight, cropWidth, 1]); // crop just the digit
+  let resizedImage = tf.image.resizeBilinear(croppedImage, [resizeHeight, resizeWidth]); // resize the digit such that its height is 80% of the total height
+  let topToCentroidY = centroidY - top;
+  let topPad = Math.round(14 - (topToCentroidY / cropHeight) * resizeHeight);
+  let bottomPad = 28 - resizeHeight - topPad;
+  let leftToCentroidX = centroidX - left;
+  let leftPad = Math.round(14 - (leftToCentroidX / cropWidth) * resizeWidth);
+  let rightPad = 28 - resizeWidth - leftPad;
+  let paddedImage = resizedImage.pad([[topPad, bottomPad], [leftPad, rightPad], [0, 0]]);
 
-//   return paddedImage;
-// }
+  return paddedImage;
+}
