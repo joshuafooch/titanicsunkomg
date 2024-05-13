@@ -146,15 +146,21 @@ let illustration = async function(p) {
     p.draw = async () => {
         if (init > 0) {
             canvasp5.loadPixels();
-            let [activations1, activations2, predictions] = await recognize(canvasp5.pixels);
-            let prediction = tf.argMax(predictions, -1).dataSync()[0];
-            $(".predictioncontainer").html('Prediction: ' + prediction);
-            activations1 = activations1.dataSync();
-            activations2 = activations2.dataSync();
-            predictions = predictions.dataSync();
-            let greenColorMap1 = activations1.map((x) => Math.round(x * 255));
-            let greenColorMap2 = activations2.map((x) => Math.round(x * 255));
-            let greenColorMap3 = predictions.map((x) => Math.round(x * 255));
+            let [activations1, activations2, predictions] = await tf.tidy(() => {
+                return recognize(canvasp5.pixels);
+            });
+            let prediction = tf.argMax(predictions, -1);
+            $(".predictioncontainer").html('Prediction: ' + prediction.dataSync()[0]);
+            prediction.dispose();
+            let activations1Array = activations1.dataSync();
+            activations1.dispose();
+            let activations2Array = activations2.dataSync();
+            activations2.dispose();
+            let predictionsArray = predictions.dataSync();
+            predictions.dispose();
+            let greenColorMap1 = activations1Array.map((x) => Math.round(x * 255));
+            let greenColorMap2 = activations2Array.map((x) => Math.round(x * 255));
+            let greenColorMap3 = predictionsArray.map((x) => Math.round(x * 255));
             // Layer 1
             p.strokeWeight(3);
             p.fill(255);

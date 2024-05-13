@@ -28,7 +28,9 @@ export function recognize(pixels) {
   pixelArray = tf.image.resizeBilinear(pixelArray, [28, 28]); //resize to (28, 28, 1)
 
   // centralise image on its centroid
-  let paddedImage = preprocessImage(pixelArray);
+  let paddedImage = tf.tidy(() => {
+    return preprocessImage(pixelArray);
+  });
 
   // run inference
   pixelArray = tf.expandDims(paddedImage, 0); //add batch dimension
@@ -36,7 +38,7 @@ export function recognize(pixels) {
   return outputs;
 }
 
-function preprocessImage(pixelArray) {
+function preprocessImage(pixelArray) { // centralises image on centroid
   let centroidProduct = tf.sum(tf.sum(tf.mul(pixelArray, centroidMap), 1), 0);
   let pixelSum = tf.sum(tf.sum(pixelArray, 1), 0);
   let centroid = tf.round(tf.div(centroidProduct, pixelSum));
@@ -50,7 +52,7 @@ function preprocessImage(pixelArray) {
   return paddedImage;
 }
 
-// function preprocessImage(pixelArray) {
+// function preprocessImage(pixelArray) { // centralises image on centroid and RESIZES digit to standard size but requires more computation
 //   let centroidProduct = tf.sum(tf.sum(tf.mul(pixelArray, centroidMap), 1), 0);
 //   let pixelSum = tf.sum(tf.sum(pixelArray, 1), 0);
 //   let centroid = tf.round(tf.div(centroidProduct, pixelSum));
@@ -92,17 +94,17 @@ function preprocessImage(pixelArray) {
 
 //   let cropHeight = bottom - top;
 //   let cropWidth = right - left;
-//   // let resizeHeight = 20; //~80% of total height
-//   // let resizeWidth = Math.round(cropWidth / cropHeight * resizeHeight);
-//   // let croppedImage = pixelArray.slice([top, left, 0], [cropHeight, cropWidth, 1]);
-//   // let resizedImage = tf.image.resizeBilinear(pixelArray, [resizeHeight, resizeWidth]);
+//   let resizeHeight = 20; //~80% of total height
+//   let resizeWidth = Math.round(cropWidth / cropHeight * resizeHeight);
+//   let croppedImage = pixelArray.slice([top, left, 0], [cropHeight, cropWidth, 1]); // crop just the digit
+//   let resizedImage = tf.image.resizeBilinear(croppedImage, [resizeHeight, resizeWidth]); // resize the digit such that its height is 80% of the total height
+//   let topToCentroidY = centroidY - top;
+//   let topPad = Math.round(14 - (topToCentroidY / cropHeight) * resizeHeight);
+//   let bottomPad = 28 - resizeHeight - topPad;
+//   let leftToCentroidX = centroidX - left;
+//   let leftPad = Math.round(14 - (leftToCentroidX / cropWidth) * resizeWidth);
+//   let rightPad = 28 - resizeWidth - leftPad;
+//   let paddedImage = resizedImage.pad([[topPad, bottomPad], [leftPad, rightPad], [0, 0]]);
 
-
-//   let [imageSliceLeft, xSize] = (centroidX < 14) ? [0, centroidX] : [2 * centroidX - 28, 28 - centroidX];
-//   let [imageSliceTop, ySize] = (centroidY < 14) ? [0, centroidY] : [2 * centroidY - 28, 28 - centroidY];
-//   let croppedImage = pixelArray.slice([imageSliceTop, imageSliceLeft, 0], [2 * ySize, 2 * xSize, 1]);
-//   let yPad = (28 - 2*ySize) / 2;
-//   let xPad = (28 - 2*xSize) / 2;
-//   let paddedImage = croppedImage.pad([[yPad, yPad], [xPad, xPad], [0, 0]]);
 //   return paddedImage;
 // }
