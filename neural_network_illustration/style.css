@@ -124,6 +124,7 @@ label {
 
     .maintitle {
         font-size: 30px;
+        width: 80vw;
     }
 
     .titletext {
@@ -131,7 +132,7 @@ label {
     }
 
     .sketchcontainer {
-        width: 80vw;
+        width: 100vw;
         flex-direction: column;
         margin-bottom: 20px;
     }

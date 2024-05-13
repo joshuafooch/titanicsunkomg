@@ -103,6 +103,8 @@ let illustration = async function(p) {
         inputY = Math.floor(0.025 * canvaswidth);
         layer1Height = Math.floor(0.95 * canvaswidth);
         layer1Y = Math.floor(0.025 * canvaswidth);
+
+        
         p.rect(50, inputY, 40, inputHeight);
         p.push();
             p.fill(0);
