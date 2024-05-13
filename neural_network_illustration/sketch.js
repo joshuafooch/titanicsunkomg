@@ -70,8 +70,8 @@ let illustration = async function(p) {
         p.createCanvas(360, canvasheight);
         $("#illustration-holder").width(360);
         $("#illustration-holder").height(canvasheight);
-    
-        p.pixelDensity(20);
+        if (window.innerWidth > 700) p.pixelDensity(20);
+        else p.pixelDensity(5); // limit canvas pixels rendered for mobile devices which have a maximum limit
         p.loadPixels();
         p.background(255);
         p.noLoop();
