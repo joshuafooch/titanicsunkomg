@@ -6,7 +6,7 @@ let inputHeight;
 let inputY;
 let layer1Height;
 let layer1Y;
-let startingX = 20;
+let startingX = 10;
 
 $("#resetbutton").on("click", () => {
     resetCanvases();
@@ -14,16 +14,14 @@ $("#resetbutton").on("click", () => {
 
 $("#trained").on("click", () => {
     init = 1;
-    illustrationp5.loop();
+    illustrationp5.draw();
     init = 0;
-    illustrationp5.noLoop();
 });
 
 $("#untrained").on("click", () => {
     init = 1;
-    illustrationp5.loop();
+    illustrationp5.draw();
     init = 0;
-    illustrationp5.noLoop();
 });
 
 function resetCanvases() {
@@ -31,20 +29,10 @@ function resetCanvases() {
     canvasp5.background(255);
     illustrationp5.setup();
     $(".predictioncontainer").html("");
-    $(".tooltip").removeClass("tooltipreceived");
-    $(".explanationcontainer").removeClass("explanationreceived");
-    $(".submitted").hide();
-    if ($("#showprocessing").prop("checked")) {
-        $(".unsubmitted").show();
-        $(".notshown").hide();
-      } else {
-        $(".unsubmitted").hide();
-        $(".notshown").show();
-      }
 }
 
 // Instantiate sketch canvas
-let canvas = async function(p) {
+let canvas = function(p) {
     p.setup = () => {
         let canvaswidth = 300;
         p.createCanvas(canvaswidth, canvaswidth);
@@ -79,15 +67,15 @@ export let canvasp5 = new p5(canvas, 'sketch-holder');
 let illustration = async function(p) {
     p.setup = () => {
         let canvasheight = 300;
-        p.createCanvas(380, canvasheight);
-        $("#illustration-holder").width(380);
+        p.createCanvas(360, canvasheight);
+        $("#illustration-holder").width(360);
         $("#illustration-holder").height(canvasheight);
     
         p.pixelDensity(20);
         p.loadPixels();
         p.background(255);
         p.noLoop();
-        p.frameRate(5); // 5 inferences per second
+        // p.frameRate(5); // 5 inferences per second
 
         // Draw layers and units
         // Input layer
@@ -97,7 +85,6 @@ let illustration = async function(p) {
         layer1Height = Math.floor(0.95 * canvasheight);
         layer1Y = Math.floor(0.025 * canvasheight);
 
-        
         p.rect(startingX, inputY, 40, inputHeight);
         p.push();
             p.fill(0);
