@@ -1,8 +1,5 @@
 import {canvasp5} from "./sketch.js";
 $(".predictioncontainer").html("");
-$("#recognizebutton").on("click", () => {
-  recognize(canvasp5.pixels);
-});
 
 // initialize mapping tensor for computing centroid
 let centroidMap = new Array(28);

@@ -43,38 +43,6 @@ function resetCanvases() {
       }
 }
 
-// Instantiate sketch canvas
-let canvas = function(p) {
-    p.setup = () => {
-        let canvaswidth = 300;
-        p.createCanvas(canvaswidth, canvaswidth);
-        $("#sketch-holder").width(canvaswidth);
-        $("#sketch-holder").height(canvaswidth);
-    
-        p.pixelDensity(1);
-        p.loadPixels();
-        p.background(255);
-        p.noLoop();
-    };
-    
-    p.draw = () => {
-        if (init > 0) {
-            let black = p.color(0);
-            p.stroke(black);
-            p.fill(black);
-            p.ellipse(p.mouseX, p.mouseY, 20, 20);
-            if (p.pmouseX != null && p.pmouseY != null) {
-                p.strokeWeight(20);
-                p.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
-                p.strokeWeight(1);
-            }
-        }
-    };
-    
-}
-
-export var canvasp5 = new p5(canvas, 'sketch-holder');
-
 // Instantiate illustration canvas
 let illustration = async function(p) {
     p.setup = () => {
@@ -204,6 +172,38 @@ let illustration = async function(p) {
 }
 
 let illustrationp5 = new p5(illustration, 'illustration-holder');
+
+// Instantiate sketch canvas
+let canvas = function(p) {
+    p.setup = () => {
+        let canvaswidth = 300;
+        p.createCanvas(canvaswidth, canvaswidth);
+        $("#sketch-holder").width(canvaswidth);
+        $("#sketch-holder").height(canvaswidth);
+    
+        p.pixelDensity(1);
+        p.loadPixels();
+        p.background(255);
+        p.noLoop();
+    };
+    
+    p.draw = () => {
+        if (init > 0) {
+            let black = p.color(0);
+            p.stroke(black);
+            p.fill(black);
+            p.ellipse(p.mouseX, p.mouseY, 20, 20);
+            if (p.pmouseX != null && p.pmouseY != null) {
+                p.strokeWeight(20);
+                p.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
+                p.strokeWeight(1);
+            }
+        }
+    };
+    
+}
+
+export var canvasp5 = new p5(canvas, 'sketch-holder');
 
 // Setup mouse/touch events for sketch canvas
 document.getElementById("sketch-holder").onmousedown = () => {
